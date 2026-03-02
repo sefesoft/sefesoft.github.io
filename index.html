@@ -8,25 +8,54 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
         <h1>Ruta del Vino</h1>
     </header>
     <main>
         <section class="card">
             <h2>Viñedo Monte Xanic</h2>
-            <p>Descripción breve del lugar. Haz clic aquí para ver más.</p>
-        </section>
-        <section class="card">
-            <h2>Viñedo L.A. Cetto</h2>
-            <p>Ubicación: Valle de Guadalupe, B.C.</p>
+            <p>Descripción breve del lugar.</p>
         </section>
     </main>
-	<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('Service Worker registrado correctamente'))
-      .catch((err) => console.log('Error al registrar SW:', err));
-  }
-</script>
+
+    <div id="install-banner" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 20px; text-align: center; border-radius: 20px 20px 0 0; z-index: 1000;">
+        <h3 id="install-title">¡Instala la App de Provino!</h3>
+        <p id="install-text">Accede a tus viñedos favoritos rápidamente desde tu pantalla de inicio.</p>
+        <button id="btn-install" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;">Instalar ahora</button>
+        <button onclick="document.getElementById('install-banner').style.display='none'" style="background: transparent; color: #bdc3c7; border: none; margin-top: 10px; cursor: pointer;">Cerrar</button>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        const installBanner = document.getElementById('install-banner');
+        const installBtn = document.getElementById('btn-install');
+        const installText = document.getElementById('install-text');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'block';
+        });
+
+        const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+        if (isiOS && !window.navigator.standalone) {
+            installBanner.style.display = 'block';
+            installText.innerText = "Toca el botón 'Compartir' y luego 'Añadir a pantalla de inicio'.";
+            installBtn.style.display = 'none';
+        }
+
+        installBtn.addEventListener('click', (e) => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        installBanner.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
