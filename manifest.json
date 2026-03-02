@@ -1,0 +1,8 @@
+{
+  "name": "Provino App Demo",
+  "short_name": "Provino",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c3e50"
+}
