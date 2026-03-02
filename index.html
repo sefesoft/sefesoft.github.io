@@ -21,5 +21,12 @@
             <p>Ubicación: Valle de Guadalupe, B.C.</p>
         </section>
     </main>
+	<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('Service Worker registrado correctamente'))
+      .catch((err) => console.log('Error al registrar SW:', err));
+  }
+</script>
 </body>
 </html>
