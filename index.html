@@ -34,33 +34,35 @@
     </div>
 
     <script>
-        // 1. LÓGICA DE NAVEGACIÓN (SPA)
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(pageId).style.display = 'block';
+    let deferredPrompt;
+    const installBanner = document.getElementById('install-banner');
+    const installBtn = document.getElementById('btn-install');
+
+    // Escuchar el evento de instalación
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log("¡Evento beforeinstallprompt detectado!");
+        alert("¡El navegador permitió la instalación!"); // Alerta de prueba
+        e.preventDefault();
+        deferredPrompt = e;
+        installBanner.style.display = 'block';
+    });
+
+    // Escuchar el click
+    installBtn.addEventListener('click', () => {
+        if (deferredPrompt) {
+            console.log("Iniciando prompt...");
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('Usuario aceptó la instalación');
+                }
+                deferredPrompt = null;
+            });
+        } else {
+            // Si llega aquí, es que el navegador no considera la web instalable aún
+            alert("El navegador no permite instalar. Asegúrate de estar en HTTPS o localhost y haber navegado un poco.");
         }
-
-        // 2. LÓGICA PWA (Service Worker)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('Service Worker registrado'))
-            .catch((err) => console.log('Error:', err));
-        }
-
-        // 3. LÓGICA DE INSTALACIÓN
-        let deferredPrompt;
-        const installBanner = document.getElementById('install-banner');
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBanner.style.display = 'block';
-        });
-
-        document.getElementById('btn-install').addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-            }
-        });
-    </script>
+    });
+	</script>
 </body>
 </html>
