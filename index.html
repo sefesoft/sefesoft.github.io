@@ -25,42 +25,42 @@
             <h2>Bienvenido</h2>
             <p>Tu guía oficial del Valle de Guadalupe.</p>
         </section>
+        
+        </main>
 
-        <section id="directory" class="page" style="display:none;">
-            <h2>Vinícolas</h2>
-            <div class="card" onclick="showDetail('Monte Xanic')">
-                <h3>Monte Xanic</h3>
-                <p>Degustación y recorridos.</p>
-            </div>
-            <div class="card" onclick="showDetail('L.A. Cetto')">
-                <h3>L.A. Cetto</h3>
-                <p>Tradición en el Valle.</p>
-            </div>
-        </section>
-
-        <section id="events" class="page" style="display:none;">
-            <h2>Eventos</h2>
-            <p>Próximas catas y conciertos.</p>
-        </section>
-
-        <section id="promos" class="page" style="display:none;">
-            <h2>Promociones</h2>
-            <p>2x1 en etiquetas seleccionadas.</p>
-        </section>
-
-        <section id="detail" class="page" style="display:none;">
-            <button onclick="showPage('directory')">← Volver</button>
-            <h2 id="detail-title">Nombre</h2>
-            <p id="detail-desc">Descripción detallada...</p>
-            <button class="btn-primary" onclick="alert('Abriendo Google Maps...')">Cómo llegar</button>
-        </section>
-    </main>
-
-    <div id="install-banner" style="display: none; position: fixed; bottom: 0; background: #2c3e50; color: white; padding: 20px; text-align: center;">
-        <p>¿Quieres acceso rápido? Añade a pantalla de inicio.</p>
-        <button id="btn-install">Instalar</button>
+    <div id="install-banner" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 20px; text-align: center; border-radius: 20px 20px 0 0; z-index: 1000;">
+        <h3 id="install-title">¡Instala la App!</h3>
+        <button id="btn-install" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Instalar</button>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        // 1. LÓGICA DE NAVEGACIÓN (SPA)
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        // 2. LÓGICA PWA (Service Worker)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('Service Worker registrado'))
+            .catch((err) => console.log('Error:', err));
+        }
+
+        // 3. LÓGICA DE INSTALACIÓN
+        let deferredPrompt;
+        const installBanner = document.getElementById('install-banner');
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'block';
+        });
+
+        document.getElementById('btn-install').addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+            }
+        });
+    </script>
 </body>
 </html>
