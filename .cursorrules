@@ -5,3 +5,10 @@
 - If writing Spanish UI, ensure the code remains consistent with the structure.
 - Always provide concise, readable code.
 - If the user asks for new features, ensure they respect the existing SPA (Single Page Application) navigation logic.
+- Follow the directory structure strictly:
+  - Assets in /assets
+  - Styles in /css
+  - Logic/JS in /js
+  - Data in /data
+  - Keep sw.js and manifest.json in root.
+- If creating new files, always determine the correct subfolder based on this hierarchy.

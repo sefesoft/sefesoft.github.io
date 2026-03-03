@@ -68,7 +68,7 @@ handleRouteChange();
 async function ensureWineriesLoaded() {
   if (wineriesLoaded) return;
 
-  const response = await fetch("vinicolas.json");
+  const response = await fetch("data/vinicolas.json");
   if (!response.ok) {
     throw new Error("No se pudieron cargar las vinícolas");
   }
@@ -261,24 +261,13 @@ const installSheetText = document.getElementById("installSheetText");
 const installSheetPrimary = document.getElementById("installSheetPrimary");
 const installSheetClose = document.getElementById("installSheetClose");
 
-let isInstalled = false;
+const INSTALL_DISMISSED_KEY = "provino_install_dismissed";
 
 function isRunningStandalone() {
   return (
     window.matchMedia("(display-mode: standalone)").matches ||
     window.navigator.standalone === true
   );
-}
-
-async function detectInstalledApp() {
-  if (isRunningStandalone()) return true;
-  if (!("getInstalledRelatedApps" in navigator)) return false;
-  try {
-    const related = await navigator.getInstalledRelatedApps();
-    return Array.isArray(related) && related.length > 0;
-  } catch {
-    return false;
-  }
 }
 
 const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
@@ -292,31 +281,26 @@ function hideInstallUI(permanent = false) {
     installSheet.classList.remove("is-visible");
   }
   if (permanent) {
-    window.localStorage.setItem("provino_install_dismissed", "1");
+    window.sessionStorage.setItem(INSTALL_DISMISSED_KEY, "1");
   }
 }
 
-// Hide header install banner when app is already installed (do not set "dismissed" so install still works in browser)
+function isInstallDismissed() {
+  return window.sessionStorage.getItem(INSTALL_DISMISSED_KEY) === "1";
+}
+
+// Only hide install banner when app is opened from the home screen icon (standalone)
 if (isRunningStandalone()) {
-  isInstalled = true;
   hideInstallUI(false);
-} else {
-  void (async () => {
-    isInstalled = await detectInstalledApp();
-    if (isInstalled) {
-      hideInstallUI(false);
-    }
-  })();
 }
 
 window.addEventListener("appinstalled", () => {
-  isInstalled = true;
   hideInstallUI(true);
 });
 
 function showInstallSheetForIos() {
-  if (!installSheet || isRunningStandalone() || isInstalled) return;
-  if (window.localStorage.getItem("provino_install_dismissed") === "1") return;
+  if (!installSheet || isRunningStandalone()) return;
+  if (isInstallDismissed()) return;
 
   if (installSheetText) {
     installSheetText.textContent =
@@ -331,8 +315,8 @@ function showInstallSheetForIos() {
 }
 
 function showInstallSheetWithPrompt() {
-  if (!installSheet || isRunningStandalone() || isInstalled) return;
-  if (window.localStorage.getItem("provino_install_dismissed") === "1") return;
+  if (!installSheet || isRunningStandalone()) return;
+  if (isInstallDismissed()) return;
 
   if (installSheetText) {
     installSheetText.textContent =
@@ -347,11 +331,7 @@ function showInstallSheetWithPrompt() {
 }
 
 window.addEventListener("beforeinstallprompt", (event) => {
-  if (
-    isRunningStandalone() ||
-    isInstalled ||
-    window.localStorage.getItem("provino_install_dismissed") === "1"
-  ) {
+  if (isRunningStandalone() || isInstallDismissed()) {
     return;
   }
 
@@ -363,11 +343,11 @@ window.addEventListener("beforeinstallprompt", (event) => {
   showInstallSheetWithPrompt();
 });
 
-if (installBtn) {
-  installBtn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
+// Call prompt() synchronously in the click handler (required for Android user-gesture)
+function handleInstallClick() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then((choice) => {
     if (choice.outcome === "accepted") {
       deferredPrompt = null;
       hideInstallUI(true);
@@ -375,16 +355,12 @@ if (installBtn) {
   });
 }
 
+if (installBtn) {
+  installBtn.addEventListener("click", handleInstallClick);
+}
+
 if (installSheetPrimary) {
-  installSheetPrimary.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-    if (choice.outcome === "accepted") {
-      deferredPrompt = null;
-      hideInstallUI(true);
-    }
-  });
+  installSheetPrimary.addEventListener("click", handleInstallClick);
 }
 
 if (installSheetClose) {
@@ -400,8 +376,7 @@ if (isIos && !isRunningStandalone()) {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("/service-worker.js")
+      .register("/sw.js")
       .catch((err) => console.error("SW registration failed", err));
   });
 }
-
