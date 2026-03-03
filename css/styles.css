@@ -9,7 +9,7 @@
   --color-text-muted: #c7aeb8;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
   --radius-lg: 18px;
-  --radius-pill: 999px;
+  --radius-pill: 18px;
   --transition-fast: 0.18s ease-out;
 }
 
@@ -317,6 +317,20 @@ body {
   background: rgba(255, 255, 255, 0.07);
 }
 
+.map-view {
+  margin-top: 0.6rem;
+  width: 100%;
+  height: 320px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.leaflet-container {
+  background: #06030a;
+}
+
 @media (min-width: 768px) {
   body {
     padding: 1.5rem;
@@ -324,5 +338,9 @@ body {
 
   .app-main {
     padding: 1.4rem 1.5rem;
+  }
+
+  .map-view {
+    height: 380px;
   }
 }

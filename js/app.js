@@ -13,6 +13,8 @@ const navButtons = Array.from(document.querySelectorAll(".nav-link"));
 const yearEl = document.getElementById("year");
 let wineries = [];
 let wineriesLoaded = false;
+let mapInstance = null;
+let mapMarkersLayer = null;
 
 if (yearEl) {
   yearEl.textContent = String(new Date().getFullYear());
@@ -200,6 +202,74 @@ function enhanceRoute(route, rest = []) {
   }
   if (route === "wineryDetail") {
     setupWineryDetailView(rest[0]);
+    return;
+  }
+  if (route === "map") {
+    setupMapView();
+  }
+}
+
+async function setupMapView() {
+  const container = document.getElementById("mapView");
+  if (!container || typeof L === "undefined") return;
+
+  await ensureWineriesLoaded();
+
+  if (!mapInstance || mapInstance.getContainer() !== container) {
+    if (mapInstance) {
+      mapInstance.remove();
+      mapInstance = null;
+      mapMarkersLayer = null;
+    }
+
+    mapInstance = L.map(container, {
+      zoomControl: false,
+      attributionControl: false,
+    }).setView([32.08, -116.57], 11);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+    }).addTo(mapInstance);
+
+    L.control
+      .zoom({
+        position: "topright",
+      })
+      .addTo(mapInstance);
+  }
+
+  if (!mapMarkersLayer) {
+    mapMarkersLayer = L.layerGroup().addTo(mapInstance);
+  } else {
+    mapMarkersLayer.clearLayers();
+  }
+
+  const bounds = [];
+
+  wineries.forEach((winery) => {
+    if (typeof winery.lat !== "number" || typeof winery.lng !== "number") return;
+
+    const point = [winery.lat, winery.lng];
+    bounds.push(point);
+
+    const marker = L.circleMarker(point, {
+      radius: 7,
+      color: "#e65a94",
+      weight: 2,
+      fillColor: "#b3325a",
+      fillOpacity: 0.85,
+    });
+
+    const popupHtml = `<strong>${winery.name}</strong><br><span style="font-size:0.8rem;">${
+      winery.address || ""
+    }</span>`;
+
+    marker.bindPopup(popupHtml);
+    marker.addTo(mapMarkersLayer);
+  });
+
+  if (bounds.length && mapInstance) {
+    mapInstance.fitBounds(bounds, { padding: [24, 24] });
   }
 }
 

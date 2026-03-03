@@ -12,6 +12,11 @@
     <meta name="theme-color" content="#7b1f3a" />
     <link rel="icon" href="assets/icons/icon-192.png" />
     <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin=""
+    />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
@@ -83,12 +88,14 @@
         <section class="view">
           <h1 class="view-title">Mapa interactivo</h1>
           <p class="view-text">
-            Aquí se mostrará el mapa con las bodegas y puntos de interés usando Leaflet.js.
+            Descubre de un vistazo dónde se encuentran las bodegas del Valle de Guadalupe.
           </p>
-          <p class="view-text">
-            Podrás ver la ubicación de cada bodega, eventos cercanos y rutas sugeridas en el Valle de
-            Guadalupe.
-          </p>
+          <div
+            id="mapView"
+            class="map-view"
+            role="region"
+            aria-label="Mapa con la ubicación de las bodegas"
+          ></div>
         </section>
       </template>
 
@@ -110,6 +117,10 @@
       </footer>
     </div>
 
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      crossorigin=""
+    ></script>
     <script src="js/app.js" type="module"></script>
   </body>
 </html>
