@@ -1,0 +1,254 @@
+:root {
+  color-scheme: light dark;
+  --color-bg: #070308;
+  --color-surface: #110712;
+  --color-surface-soft: #1b101d;
+  --color-accent: #b3325a;
+  --color-accent-soft: #f4dde4;
+  --color-text: #f9f4f7;
+  --color-text-muted: #c7aeb8;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --transition-fast: 0.18s ease-out;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top left, #26111f 0, #050308 55%, #020109 100%);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.app-header {
+  background: linear-gradient(145deg, #180811, #2a0f21);
+  border-radius: var(--radius-lg);
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.brand-title {
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.brand-subtitle {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.install-btn {
+  border-radius: var(--radius-pill);
+  border: none;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  box-shadow: 0 8px 18px rgba(179, 50, 90, 0.55);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.install-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(179, 50, 90, 0.75);
+  background: #c93c66;
+}
+
+.install-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.app-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  background: rgba(4, 2, 7, 0.9);
+  border-radius: var(--radius-pill);
+  padding: 0.2rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.nav-link {
+  border-radius: var(--radius-pill);
+  border: none;
+  padding: 0.55rem 0.2rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.nav-link.is-active {
+  background: linear-gradient(145deg, #b3325a, #e65a94);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(214, 92, 144, 0.6);
+  transform: translateY(-1px);
+}
+
+.nav-link:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.app-main {
+  margin-top: 0.6rem;
+  background: rgba(9, 3, 14, 0.95);
+  border-radius: 22px;
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 50vh;
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.view-title {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.view-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.app-footer {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.install-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.install-sheet-inner {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 0.75rem 0.85rem;
+  background: linear-gradient(145deg, #1b0a15, #2b1023);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.9rem 1rem;
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  pointer-events: auto;
+}
+
+.install-sheet.is-visible .install-sheet-inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.install-sheet-title {
+  margin: 0 0 0.25rem;
+  font-size: 0.98rem;
+}
+
+.install-sheet-text {
+  margin: 0 0 0.6rem;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.install-sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.install-sheet-primary,
+.install-sheet-secondary {
+  border-radius: var(--radius-pill);
+  border: none;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.install-sheet-primary {
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(179, 50, 90, 0.55);
+}
+
+.install-sheet-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  body {
+    padding: 1.5rem;
+  }
+
+  .app-main {
+    padding: 1.4rem 1.5rem;
+  }
+}

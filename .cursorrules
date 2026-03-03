@@ -1,0 +1,7 @@
+- Prioritize "Mobile-First" design using clean CSS.
+- Use Vanilla JavaScript (ES6+). Avoid external frameworks unless requested.
+- Maintain PWA compatibility (manifest.json, Service Worker).
+- When writing code, prioritize performance and fast load times.
+- If writing Spanish UI, ensure the code remains consistent with the structure.
+- Always provide concise, readable code.
+- If the user asks for new features, ensure they respect the existing SPA (Single Page Application) navigation logic.

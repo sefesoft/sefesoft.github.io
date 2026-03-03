@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Provino - Valle de Guadalupe</title>
+    <meta
+      name="description"
+      content="Directorio PWA de bodegas, eventos y promociones en el Valle de Guadalupe."
+    />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#7b1f3a" />
+    <link rel="icon" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand-title">Provino</span>
+          <span class="brand-subtitle">Valle de Guadalupe</span>
+        </div>
+        <button class="install-btn" id="installBtn" hidden>Instalar App</button>
+      </header>
+
+      <nav class="app-nav" aria-label="Navegación principal">
+        <button class="nav-link is-active" data-route="home">Inicio</button>
+        <button class="nav-link" data-route="wineries">Bodegas</button>
+        <button class="nav-link" data-route="events">Eventos</button>
+        <button class="nav-link" data-route="promos">Promociones</button>
+        <button class="nav-link" data-route="map">Mapa</button>
+        <button class="nav-link" data-route="i18n">Idiomas</button>
+      </nav>
+
+      <main id="app" class="app-main" role="main" aria-live="polite"></main>
+
+      <div class="install-sheet" id="installSheet" hidden>
+        <div class="install-sheet-inner">
+          <h2 class="install-sheet-title">Instala Provino en tu teléfono</h2>
+          <p class="install-sheet-text" id="installSheetText">
+            Para acceder más rápido, instala la app en tu pantalla de inicio.
+          </p>
+          <div class="install-sheet-actions">
+            <button class="install-sheet-primary" id="installSheetPrimary">
+              Instalar ahora
+            </button>
+            <button class="install-sheet-secondary" id="installSheetClose">
+              No mostrar de nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <template id="view-home">
+        <section class="view">
+          <h1 class="view-title">Bienvenido a Provino</h1>
+          <p class="view-text">
+            Explora bodegas, eventos y promociones del Valle de Guadalupe desde una
+            experiencia rápida y lista para instalar en tu teléfono.
+          </p>
+        </section>
+      </template>
+
+      <template id="view-wineries">
+        <section class="view">
+          <h1 class="view-title">Bodegas</h1>
+          <p class="view-text">
+            Aquí aparecerá el directorio interactivo de bodegas.
+          </p>
+        </section>
+      </template>
+
+      <template id="view-events">
+        <section class="view">
+          <h1 class="view-title">Eventos</h1>
+          <p class="view-text">
+            Próximamente podrás ver eventos destacados y experiencias en la región.
+          </p>
+        </section>
+      </template>
+
+      <template id="view-promos">
+        <section class="view">
+          <h1 class="view-title">Promociones</h1>
+          <p class="view-text">
+            Ofertas, catas especiales y experiencias en promoción estarán disponibles aquí.
+          </p>
+        </section>
+      </template>
+
+      <template id="view-map">
+        <section class="view">
+          <h1 class="view-title">Mapa interactivo</h1>
+          <p class="view-text">
+            Aquí se mostrará el mapa con las bodegas y puntos de interés usando Leaflet.js.
+          </p>
+          <p class="view-text">
+            Podrás ver la ubicación de cada bodega, eventos cercanos y rutas sugeridas en el Valle de
+            Guadalupe.
+          </p>
+        </section>
+      </template>
+
+      <template id="view-i18n">
+        <section class="view">
+          <h1 class="view-title">Idiomas y traducciones</h1>
+          <p class="view-text">
+            En esta sección se configurará el sistema de traducciones (i18n) para cambiar entre
+            español, inglés y otros idiomas.
+          </p>
+          <p class="view-text">
+            Más adelante podrás seleccionar tu idioma preferido y ver todo el contenido adaptado.
+          </p>
+        </section>
+      </template>
+
+      <footer class="app-footer">
+        <small>&copy; <span id="year"></span> Provino - Valle de Guadalupe</small>
+      </footer>
+    </div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
