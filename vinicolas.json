@@ -1,0 +1,59 @@
+[
+  {
+    "name": "Monte Xanic",
+    "address": "Camino a la Vinícola Km 7, Valle de Guadalupe, Ensenada, B.C., México",
+    "webpage": "https://www.montexanic.com.mx",
+    "phone": "+52 646 155 3088",
+    "description": "Bodega pionera en el Valle de Guadalupe, reconocida por sus vinos premium y vistas al lago dentro de la propiedad."
+  },
+  {
+    "name": "Vena Cava",
+    "address": "Ejido El Porvenir, Parcela 26, Valle de Guadalupe, Ensenada, B.C., México",
+    "webpage": "https://venacavawine.com",
+    "phone": "+52 646 156 8053",
+    "description": "Bodega boutique con arquitectura distintiva hecha con cascos de barcos reciclados y enfoque en vinos orgánicos."
+  },
+  {
+    "name": "L.A. Cetto",
+    "address": "Carretera Tecate-Ensenada Km 73.5, Valle de Guadalupe, Ensenada, B.C., México",
+    "webpage": "https://www.lacetto.mx",
+    "phone": "+52 646 174 4444",
+    "description": "Una de las casas vinícolas más grandes y tradicionales de México, con amplias áreas para recorridos y degustaciones."
+  },
+  {
+    "name": "Viñas de Garza",
+    "address": "Rancho Mogorcito, Ejido El Porvenir, Valle de Guadalupe, Ensenada, B.C., México",
+    "webpage": "https://vinasdegarza.com",
+    "phone": "+52 646 155 2527",
+    "description": "Proyecto familiar enfocado en vinos de alta gama, con vista panorámica a los viñedos y atención cercana de sus propietarios."
+  },
+  {
+    "name": "Santos Brujos",
+    "address": "Camino Vecinal Parcela 156, San Antonio de las Minas, Ensenada, B.C., México",
+    "webpage": "https://santosbrujos.com",
+    "phone": "+52 646 152 0480",
+    "description": "Bodega certificada orgánica y biodinámica, centrada en producir vinos que expresan de forma fiel el terruño del valle."
+  },
+  {
+    "name": "Adobe Guadalupe",
+    "address": "El Porvenir, Parcela A-1 s/n, Valle de Guadalupe, Ensenada, B.C., México",
+    "webpage": "https://www.adobeguadalupe.com",
+    "phone": "+52 646 155 2094",
+    "description": "Viñedo, bodega y posada de estilo hacienda, ideal para experiencias completas de hospedaje, cabalgatas y degustaciones."
+  },
+  {
+    "name": "Decantos Vinícola",
+    "address": "Carretera Ensenada-Tecate Km 88, Baja California, México",
+    "webpage": "https://www.decantos.mx",
+    "phone": "+52 646 688 1019",
+    "description": "Bodega moderna que utiliza la gravedad en todo su proceso de vinificación, con terrazas y vistas abiertas al valle."
+  },
+  {
+    "name": "El Cielo",
+    "address": "Carretera El Tigre Km 7.5, Valle de Guadalupe, Ensenada, B.C., México",
+    "webpage": "https://vinoselcielo.com",
+    "phone": "+52 646 688 1037",
+    "description": "Complejo enoturístico con hotel, restaurantes y diversas etiquetas de vino, pensado para estancias completas en el valle."
+  }
+]
+

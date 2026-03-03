@@ -16,5 +16,5 @@ Provino is a Progressive Web App (PWA) developed to provide a fast and efficient
 ## Roadmap
 - [x] Basic SPA Structure
 - [x] PWA Logic (Installation)
-- [ ] Map Integration with Leaflet.js
+- [] Map Integration with Leaflet.js
 - [ ] Translation System (i18n)
