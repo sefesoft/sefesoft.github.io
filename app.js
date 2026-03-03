@@ -261,9 +261,26 @@ const installSheetText = document.getElementById("installSheetText");
 const installSheetPrimary = document.getElementById("installSheetPrimary");
 const installSheetClose = document.getElementById("installSheetClose");
 
-const isStandalone =
-  window.matchMedia("(display-mode: standalone)").matches ||
-  window.navigator.standalone === true;
+let isInstalled = false;
+
+function isRunningStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+async function detectInstalledApp() {
+  if (isRunningStandalone()) return true;
+  if (!("getInstalledRelatedApps" in navigator)) return false;
+  try {
+    const related = await navigator.getInstalledRelatedApps();
+    return Array.isArray(related) && related.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 
 function hideInstallUI(permanent = false) {
@@ -279,12 +296,20 @@ function hideInstallUI(permanent = false) {
   }
 }
 
-if (isStandalone) {
+void (async () => {
+  isInstalled = await detectInstalledApp();
+  if (isInstalled) {
+    hideInstallUI(true);
+  }
+})();
+
+window.addEventListener("appinstalled", () => {
+  isInstalled = true;
   hideInstallUI(true);
-}
+});
 
 function showInstallSheetForIos() {
-  if (!installSheet || isStandalone) return;
+  if (!installSheet || isRunningStandalone() || isInstalled) return;
   if (window.localStorage.getItem("provino_install_dismissed") === "1") return;
 
   if (installSheetText) {
@@ -300,7 +325,7 @@ function showInstallSheetForIos() {
 }
 
 function showInstallSheetWithPrompt() {
-  if (!installSheet || isStandalone) return;
+  if (!installSheet || isRunningStandalone() || isInstalled) return;
   if (window.localStorage.getItem("provino_install_dismissed") === "1") return;
 
   if (installSheetText) {
@@ -316,7 +341,11 @@ function showInstallSheetWithPrompt() {
 }
 
 window.addEventListener("beforeinstallprompt", (event) => {
-  if (isStandalone || window.localStorage.getItem("provino_install_dismissed") === "1") {
+  if (
+    isRunningStandalone() ||
+    isInstalled ||
+    window.localStorage.getItem("provino_install_dismissed") === "1"
+  ) {
     return;
   }
 
@@ -358,7 +387,7 @@ if (installSheetClose) {
   });
 }
 
-if (isIos && !isStandalone) {
+if (isIos && !isRunningStandalone()) {
   window.setTimeout(showInstallSheetForIos, 1200);
 }
 

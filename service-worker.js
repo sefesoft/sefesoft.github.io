@@ -1,4 +1,4 @@
-const CACHE_NAME = "provino-shell-v1";
+const CACHE_NAME = "provino-shell-v2";
 const OFFLINE_URLS = [
   "/",
   "/index.html",
