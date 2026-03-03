@@ -296,12 +296,18 @@ function hideInstallUI(permanent = false) {
   }
 }
 
-void (async () => {
-  isInstalled = await detectInstalledApp();
-  if (isInstalled) {
-    hideInstallUI(true);
-  }
-})();
+// Hide header install banner immediately when app is already installed (standalone)
+if (isRunningStandalone()) {
+  isInstalled = true;
+  hideInstallUI(true);
+} else {
+  void (async () => {
+    isInstalled = await detectInstalledApp();
+    if (isInstalled) {
+      hideInstallUI(true);
+    }
+  })();
+}
 
 window.addEventListener("appinstalled", () => {
   isInstalled = true;
