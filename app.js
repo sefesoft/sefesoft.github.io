@@ -296,15 +296,15 @@ function hideInstallUI(permanent = false) {
   }
 }
 
-// Hide header install banner immediately when app is already installed (standalone)
+// Hide header install banner when app is already installed (do not set "dismissed" so install still works in browser)
 if (isRunningStandalone()) {
   isInstalled = true;
-  hideInstallUI(true);
+  hideInstallUI(false);
 } else {
   void (async () => {
     isInstalled = await detectInstalledApp();
     if (isInstalled) {
-      hideInstallUI(true);
+      hideInstallUI(false);
     }
   })();
 }
