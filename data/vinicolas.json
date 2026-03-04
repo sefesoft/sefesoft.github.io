@@ -1,6 +1,12 @@
 [
   {
     "name": { "es": "Monte Xanic", "en": "Monte Xanic" },
+    "logo": "https://picsum.photos/seed/montexanic/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/mx1/800/500",
+      "https://picsum.photos/seed/mx2/800/500",
+      "https://picsum.photos/seed/mx3/800/500"
+    ],
     "address": {
       "es": "Camino a la Vinícola Km 7, Valle de Guadalupe, Ensenada, B.C., México",
       "en": "Winery Road Km 7, Valle de Guadalupe, Ensenada, B.C., Mexico"
@@ -16,6 +22,12 @@
   },
   {
     "name": { "es": "Vena Cava", "en": "Vena Cava" },
+    "logo": "https://picsum.photos/seed/venacava/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/vc1/800/500",
+      "https://picsum.photos/seed/vc2/800/500",
+      "https://picsum.photos/seed/vc3/800/500"
+    ],
     "address": {
       "es": "Ejido El Porvenir, Parcela 26, Valle de Guadalupe, Ensenada, B.C., México",
       "en": "Ejido El Porvenir, Parcela 26, Valle de Guadalupe, Ensenada, B.C., Mexico"
@@ -31,6 +43,12 @@
   },
   {
     "name": { "es": "L.A. Cetto", "en": "L.A. Cetto" },
+    "logo": "https://picsum.photos/seed/lacetto/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/lc1/800/500",
+      "https://picsum.photos/seed/lc2/800/500",
+      "https://picsum.photos/seed/lc3/800/500"
+    ],
     "address": {
       "es": "Carretera Tecate-Ensenada Km 73.5, Valle de Guadalupe, Ensenada, B.C., México",
       "en": "Tecate-Ensenada Highway Km 73.5, Valle de Guadalupe, Ensenada, B.C., Mexico"
@@ -46,6 +64,12 @@
   },
   {
     "name": { "es": "Viñas de Garza", "en": "Viñas de Garza" },
+    "logo": "https://picsum.photos/seed/vinasgarza/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/vg1/800/500",
+      "https://picsum.photos/seed/vg2/800/500",
+      "https://picsum.photos/seed/vg3/800/500"
+    ],
     "address": {
       "es": "Rancho Mogorcito, Ejido El Porvenir, Valle de Guadalupe, Ensenada, B.C., México",
       "en": "Rancho Mogorcito, Ejido El Porvenir, Valle de Guadalupe, Ensenada, B.C., Mexico"
@@ -61,6 +85,12 @@
   },
   {
     "name": { "es": "Santos Brujos", "en": "Santos Brujos" },
+    "logo": "https://picsum.photos/seed/santosbrujos/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/sb1/800/500",
+      "https://picsum.photos/seed/sb2/800/500",
+      "https://picsum.photos/seed/sb3/800/500"
+    ],
     "address": {
       "es": "Camino Vecinal Parcela 156, San Antonio de las Minas, Ensenada, B.C., México",
       "en": "Camino Vecinal Parcela 156, San Antonio de las Minas, Ensenada, B.C., Mexico"
@@ -76,6 +106,12 @@
   },
   {
     "name": { "es": "Adobe Guadalupe", "en": "Adobe Guadalupe" },
+    "logo": "https://picsum.photos/seed/adobeguad/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/ag1/800/500",
+      "https://picsum.photos/seed/ag2/800/500",
+      "https://picsum.photos/seed/ag3/800/500"
+    ],
     "address": {
       "es": "El Porvenir, Parcela A-1 s/n, Valle de Guadalupe, Ensenada, B.C., México",
       "en": "El Porvenir, Parcela A-1 s/n, Valle de Guadalupe, Ensenada, B.C., Mexico"
@@ -91,6 +127,12 @@
   },
   {
     "name": { "es": "Decantos Vinícola", "en": "Decantos Winery" },
+    "logo": "https://picsum.photos/seed/decantos/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/dc1/800/500",
+      "https://picsum.photos/seed/dc2/800/500",
+      "https://picsum.photos/seed/dc3/800/500"
+    ],
     "address": {
       "es": "Carretera Ensenada-Tecate Km 88, Baja California, México",
       "en": "Ensenada-Tecate Highway Km 88, Baja California, Mexico"
@@ -106,6 +148,12 @@
   },
   {
     "name": { "es": "El Cielo", "en": "El Cielo" },
+    "logo": "https://picsum.photos/seed/elcielo/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/ec1/800/500",
+      "https://picsum.photos/seed/ec2/800/500",
+      "https://picsum.photos/seed/ec3/800/500"
+    ],
     "address": {
       "es": "Carretera El Tigre Km 7.5, Valle de Guadalupe, Ensenada, B.C., México",
       "en": "El Tigre Road Km 7.5, Valle de Guadalupe, Ensenada, B.C., Mexico"

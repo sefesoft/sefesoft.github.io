@@ -30,6 +30,15 @@ let promosLoaded = false;
 let mapInstance = null;
 let mapMarkersLayer = null;
 
+const galleryLightbox = document.getElementById("galleryLightbox");
+const lightboxImage = document.querySelector(".lightbox-image");
+const lightboxBackdrop = document.querySelector(".lightbox-backdrop");
+const lightboxClose = document.querySelector(".lightbox-close");
+const lightboxPrev = document.querySelector(".lightbox-prev");
+const lightboxNext = document.querySelector(".lightbox-next");
+let lightboxUrls = [];
+let lightboxIndex = 0;
+
 function renderRoute(route) {
   const templateId = routes[route] || routes.home;
   const template = document.getElementById(templateId);
@@ -98,6 +107,7 @@ document.querySelectorAll(".lang-option").forEach((btn) => {
 });
 
 setLangToggleState();
+initGalleryLightbox();
 handleRouteChange();
 
 async function ensureWineriesLoaded() {
@@ -130,7 +140,15 @@ async function setupWineriesView() {
 
       const logo = document.createElement("div");
       logo.className = "winery-card-logo";
-      logo.textContent = initialsFromName(localizeField(winery.name));
+      if (winery.logo) {
+        const logoImg = document.createElement("img");
+        logoImg.src = winery.logo;
+        logoImg.alt = "";
+        logoImg.loading = "lazy";
+        logo.appendChild(logoImg);
+      } else {
+        logo.textContent = initialsFromName(localizeField(winery.name));
+      }
 
       const name = document.createElement("div");
       name.className = "winery-card-name";
@@ -566,7 +584,14 @@ async function setupWineryDetailView(wineryIdRaw) {
 
     const badge = document.createElement("div");
     badge.className = "winery-detail-badge";
-    badge.textContent = initialsFromName(localizeField(winery.name));
+    if (winery.logo) {
+      const badgeImg = document.createElement("img");
+      badgeImg.src = winery.logo;
+      badgeImg.alt = "";
+      badge.appendChild(badgeImg);
+    } else {
+      badge.textContent = initialsFromName(localizeField(winery.name));
+    }
 
     const titleWrap = document.createElement("div");
     titleWrap.className = "winery-detail-titlewrap";
@@ -581,6 +606,22 @@ async function setupWineryDetailView(wineryIdRaw) {
 
     titleWrap.append(title, desc);
     header.append(badge, titleWrap);
+
+    let galleryEl = null;
+    if (Array.isArray(winery.gallery) && winery.gallery.length > 0) {
+      galleryEl = document.createElement("div");
+      galleryEl.className = "winery-detail-gallery";
+      winery.gallery.slice(0, 3).forEach((src) => {
+        const item = document.createElement("div");
+        item.className = "winery-detail-gallery-item";
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "";
+        img.loading = "lazy";
+        item.appendChild(img);
+        galleryEl.appendChild(item);
+      });
+    }
 
     const info = document.createElement("div");
     info.className = "winery-detail-info";
@@ -608,10 +649,110 @@ async function setupWineryDetailView(wineryIdRaw) {
 
     actions.append(callBtn, webBtn, navBtn);
 
-    container.append(header, info, actions);
+    if (galleryEl) {
+      const urls = winery.gallery.slice(0, 3);
+      galleryEl.querySelectorAll(".winery-detail-gallery-item").forEach((item, index) => {
+        item.addEventListener("click", () => openGalleryLightbox(urls, index));
+        item.style.cursor = "pointer";
+      });
+      container.append(header, galleryEl, info, actions);
+    } else container.append(header, info, actions);
   } catch (error) {
     container.textContent = t("wineries.detailError");
   }
+}
+
+function openGalleryLightbox(urls, startIndex) {
+  if (!urls?.length || !galleryLightbox || !lightboxImage) return;
+  lightboxUrls = urls;
+  lightboxIndex = Math.max(0, Math.min(startIndex, urls.length - 1));
+  lightboxImage.src = lightboxUrls[lightboxIndex];
+  galleryLightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+  updateLightboxNav();
+  galleryLightbox.focus();
+}
+
+function closeGalleryLightbox() {
+  if (galleryLightbox) galleryLightbox.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function updateLightboxNav() {
+  if (!lightboxImage || !lightboxUrls.length) return;
+  lightboxImage.src = lightboxUrls[lightboxIndex];
+  if (lightboxPrev) {
+    lightboxPrev.disabled = lightboxIndex <= 0;
+    lightboxPrev.hidden = lightboxUrls.length <= 1;
+  }
+  if (lightboxNext) {
+    lightboxNext.disabled = lightboxIndex >= lightboxUrls.length - 1;
+    lightboxNext.hidden = lightboxUrls.length <= 1;
+  }
+}
+
+function initGalleryLightbox() {
+  if (!galleryLightbox) return;
+  galleryLightbox.hidden = true;
+  document.body.style.overflow = "";
+  lightboxBackdrop?.addEventListener("click", (e) => {
+    e.preventDefault();
+    closeGalleryLightbox();
+  });
+  lightboxClose?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeGalleryLightbox();
+  });
+  lightboxPrev?.addEventListener("click", () => {
+    if (lightboxIndex > 0) {
+      lightboxIndex--;
+      updateLightboxNav();
+    }
+  });
+  lightboxNext?.addEventListener("click", () => {
+    if (lightboxIndex < lightboxUrls.length - 1) {
+      lightboxIndex++;
+      updateLightboxNav();
+    }
+  });
+  galleryLightbox.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeGalleryLightbox();
+      return;
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      if (lightboxIndex > 0) {
+        lightboxIndex--;
+        updateLightboxNav();
+      }
+      return;
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      if (lightboxIndex < lightboxUrls.length - 1) {
+        lightboxIndex++;
+        updateLightboxNav();
+      }
+    }
+  });
+  let touchStartX = 0;
+  galleryLightbox.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.changedTouches?.[0]?.clientX ?? 0;
+    },
+    { passive: true }
+  );
+  galleryLightbox.addEventListener("touchend", (e) => {
+    const touchEndX = e.changedTouches?.[0]?.clientX ?? 0;
+    const delta = touchStartX - touchEndX;
+    if (Math.abs(delta) > 50) {
+      if (delta > 0) lightboxNext?.click();
+      else lightboxPrev?.click();
+    }
+  });
 }
 
 function enhanceRoute(route, rest = []) {
