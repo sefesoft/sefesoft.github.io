@@ -3,7 +3,9 @@ const routes = {
   wineries: "view-wineries",
   wineryDetail: "view-winery-detail",
   events: "view-events",
+  eventDetail: "view-event-detail",
   promos: "view-promos",
+  promoDetail: "view-promo-detail",
   map: "view-map",
   i18n: "view-i18n",
 };
@@ -13,6 +15,10 @@ const navButtons = Array.from(document.querySelectorAll(".nav-link"));
 const yearEl = document.getElementById("year");
 let wineries = [];
 let wineriesLoaded = false;
+let events = [];
+let eventsLoaded = false;
+let promos = [];
+let promosLoaded = false;
 let mapInstance = null;
 let mapMarkersLayer = null;
 
@@ -29,7 +35,14 @@ function renderRoute(route) {
 }
 
 function setActiveNav(route) {
-  const activeKey = route === "wineryDetail" ? "wineries" : route;
+  const activeKey =
+    route === "wineryDetail"
+      ? "wineries"
+      : route === "eventDetail"
+        ? "events"
+        : route === "promoDetail"
+          ? "promos"
+          : route;
   navButtons.forEach((btn) => {
     const isActive = btn.dataset.route === activeKey;
     btn.classList.toggle("is-active", isActive);
@@ -44,7 +57,10 @@ function parseLocationHash() {
 
 function handleRouteChange() {
   const { base, rest } = parseLocationHash();
-  const route = base === "wineries" && rest.length > 0 ? "wineryDetail" : base;
+  let route = base;
+  if (base === "wineries" && rest.length > 0) route = "wineryDetail";
+  else if (base === "events" && rest.length > 0) route = "eventDetail";
+  else if (base === "promos" && rest.length > 0) route = "promoDetail";
 
   renderRoute(route);
   setActiveNav(route);
@@ -125,6 +141,383 @@ async function setupWineriesView() {
   }
 }
 
+function isEventUpcoming(dateStr) {
+  if (!dateStr) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const eventDate = new Date(dateStr + "T12:00:00");
+  eventDate.setHours(0, 0, 0, 0);
+  return eventDate >= today;
+}
+
+function formatEventDate(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr + "T12:00:00");
+  return d.toLocaleDateString("es-MX", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function escapeIcsText(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,");
+}
+
+function buildIcsForEvent(event) {
+  const uid = `${event.id}-${event.date}@provino.app`;
+  const now = new Date();
+  const dtstamp =
+    now.getUTCFullYear() +
+    String(now.getUTCMonth() + 1).padStart(2, "0") +
+    String(now.getUTCDate()).padStart(2, "0") +
+    "T" +
+    String(now.getUTCHours()).padStart(2, "0") +
+    String(now.getUTCMinutes()).padStart(2, "0") +
+    String(now.getUTCSeconds()).padStart(2, "0") +
+    "Z";
+  const start = (event.date || "").replace(/-/g, "");
+  const endDate = event.date ? new Date(event.date + "T12:00:00") : null;
+  if (endDate) endDate.setDate(endDate.getDate() + 1);
+  const end = endDate
+    ? endDate.toISOString().slice(0, 10).replace(/-/g, "")
+    : start;
+  const summary = escapeIcsText(event.name || "Evento");
+  const description = escapeIcsText(event.description || "");
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Provino//Eventos//ES",
+    "BEGIN:VEVENT",
+    "UID:" + uid,
+    "DTSTAMP:" + dtstamp,
+    "DTSTART;VALUE=DATE:" + start,
+    "DTEND;VALUE=DATE:" + end,
+    "SUMMARY:" + summary,
+    "DESCRIPTION:" + description,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ];
+  return lines.join("\r\n");
+}
+
+function downloadIcsForEvent(event) {
+  const ics = buildIcsForEvent(event);
+  const blob = new Blob(["\uFEFF" + ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `evento-${(event.id || "evento").replace(/\s+/g, "-")}.ics`;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function getGoogleCalendarUrl(event) {
+  const start = (event.date || "").replace(/-/g, "");
+  const endDate = event.date ? new Date(event.date + "T12:00:00") : null;
+  if (endDate) endDate.setDate(endDate.getDate() + 1);
+  const end = endDate
+    ? endDate.toISOString().slice(0, 10).replace(/-/g, "")
+    : start;
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: event.name || "Evento",
+    details: event.description || "",
+    dates: `${start}/${end}`,
+  });
+  return "https://calendar.google.com/calendar/render?" + params.toString();
+}
+
+async function ensureEventsLoaded() {
+  if (eventsLoaded) return;
+  const response = await fetch("data/eventos.json");
+  if (!response.ok) throw new Error("No se pudieron cargar los eventos");
+  events = await response.json();
+  eventsLoaded = true;
+}
+
+async function setupEventsView() {
+  const listEl = document.getElementById("eventsList");
+  if (!listEl) return;
+
+  try {
+    await ensureEventsLoaded();
+    const upcoming = events.filter((e) => isEventUpcoming(e.date));
+    listEl.replaceChildren();
+
+    if (upcoming.length === 0) {
+      listEl.innerHTML =
+        '<p class="view-text">No hay eventos próximos en este momento. Vuelve pronto.</p>';
+      return;
+    }
+
+    upcoming.forEach((event) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "event-card";
+      card.setAttribute("aria-label", `Ver ${event.name}`);
+
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "event-card-image";
+      const img = document.createElement("img");
+      img.src = event.image || "";
+      img.alt = "";
+      img.loading = "lazy";
+      imgWrap.appendChild(img);
+
+      const body = document.createElement("div");
+      body.className = "event-card-body";
+      const title = document.createElement("div");
+      title.className = "event-card-title";
+      title.textContent = event.name;
+      const date = document.createElement("div");
+      date.className = "event-card-date";
+      date.textContent = formatEventDate(event.date);
+      const desc = document.createElement("div");
+      desc.className = "event-card-desc";
+      desc.textContent = (event.description || "").slice(0, 80) + ((event.description || "").length > 80 ? "…" : "");
+      body.append(title, date, desc);
+
+      const chevron = document.createElement("div");
+      chevron.className = "event-card-chevron";
+      chevron.textContent = "›";
+
+      card.append(imgWrap, body, chevron);
+      card.addEventListener("click", () => {
+        history.pushState(
+          { route: "events" },
+          "",
+          `#events/${encodeURIComponent(event.id)}`
+        );
+        handleRouteChange();
+      });
+      listEl.appendChild(card);
+    });
+  } catch (error) {
+    listEl.textContent =
+      "No se pudieron cargar los eventos en este momento. Intenta más tarde.";
+  }
+}
+
+async function setupEventDetailView(eventIdRaw) {
+  const container = document.getElementById("eventDetail");
+  const backBtn = document.getElementById("eventBackBtn");
+  if (!container) return;
+
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      history.pushState({ route: "events" }, "", "#events");
+      handleRouteChange();
+    });
+  }
+
+  try {
+    await ensureEventsLoaded();
+    const eventId = decodeURIComponent(eventIdRaw || "");
+    const event = events.find((e) => e.id === eventId);
+    if (!event) {
+      container.textContent = "Evento no encontrado.";
+      return;
+    }
+
+    container.replaceChildren();
+
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "event-detail-image";
+    const img = document.createElement("img");
+    img.src = event.image || "";
+    img.alt = "";
+    imgWrap.appendChild(img);
+
+    const title = document.createElement("h1");
+    title.className = "event-detail-title";
+    title.textContent = event.name;
+
+    const date = document.createElement("p");
+    date.className = "event-detail-date";
+    date.textContent = formatEventDate(event.date);
+
+    const desc = document.createElement("p");
+    desc.className = "event-detail-desc";
+    desc.textContent = event.description || "";
+
+    const actions = document.createElement("div");
+    actions.className = "event-detail-actions";
+    const addToCalendarLabel = "Añadir al calendario";
+    const googleBtn = document.createElement("a");
+    googleBtn.className = "event-action event-action-google";
+    googleBtn.href = getGoogleCalendarUrl(event);
+    googleBtn.target = "_blank";
+    googleBtn.rel = "noopener noreferrer";
+    googleBtn.textContent = "Google Calendar";
+    googleBtn.setAttribute("aria-label", addToCalendarLabel + " (Google)");
+    const icsBtn = document.createElement("button");
+    icsBtn.type = "button";
+    icsBtn.className = "event-action event-action-ics";
+    icsBtn.textContent = "Descargar .ics";
+    icsBtn.setAttribute("aria-label", addToCalendarLabel + " (archivo .ics para iOS / Apple Calendar)");
+    icsBtn.addEventListener("click", () => downloadIcsForEvent(event));
+    actions.append(googleBtn, icsBtn);
+
+    container.append(imgWrap, title, date, desc, actions);
+  } catch (error) {
+    container.textContent = "No se pudo cargar el evento.";
+  }
+}
+
+function isPromoActive(startStr, endStr) {
+  if (!startStr || !endStr) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const start = new Date(startStr + "T12:00:00");
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(endStr + "T12:00:00");
+  end.setHours(23, 59, 59, 999);
+  return today >= start && today <= end;
+}
+
+function formatPromoDateRange(startStr, endStr) {
+  if (!startStr || !endStr) return "";
+  const start = new Date(startStr + "T12:00:00");
+  const end = new Date(endStr + "T12:00:00");
+  return (
+    start.toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" }) +
+    " – " +
+    end.toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" })
+  );
+}
+
+async function ensurePromosLoaded() {
+  if (promosLoaded) return;
+  const response = await fetch("data/promos.json");
+  if (!response.ok) throw new Error("No se pudieron cargar las promociones");
+  promos = await response.json();
+  promosLoaded = true;
+}
+
+async function setupPromosView() {
+  const listEl = document.getElementById("promosList");
+  if (!listEl) return;
+
+  try {
+    await ensurePromosLoaded();
+    const active = promos.filter((p) => isPromoActive(p.startDate, p.endDate));
+    listEl.replaceChildren();
+
+    if (active.length === 0) {
+      listEl.innerHTML =
+        '<p class="view-text">No hay promociones vigentes en este momento. Vuelve pronto.</p>';
+      return;
+    }
+
+    active.forEach((promo) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "promo-card";
+      card.setAttribute("aria-label", `Ver ${promo.name}`);
+
+      const imgWrap = document.createElement("div");
+      imgWrap.className = "promo-card-image";
+      const img = document.createElement("img");
+      img.src = promo.image || "";
+      img.alt = "";
+      img.loading = "lazy";
+      imgWrap.appendChild(img);
+
+      const body = document.createElement("div");
+      body.className = "promo-card-body";
+      const title = document.createElement("div");
+      title.className = "promo-card-title";
+      title.textContent = promo.name;
+      const dates = document.createElement("div");
+      dates.className = "promo-card-dates";
+      dates.textContent = formatPromoDateRange(promo.startDate, promo.endDate);
+      const desc = document.createElement("div");
+      desc.className = "promo-card-desc";
+      desc.textContent =
+        (promo.description || "").slice(0, 80) +
+        ((promo.description || "").length > 80 ? "…" : "");
+      body.append(title, dates, desc);
+
+      const chevron = document.createElement("div");
+      chevron.className = "promo-card-chevron";
+      chevron.textContent = "›";
+
+      card.append(imgWrap, body, chevron);
+      card.addEventListener("click", () => {
+        history.pushState(
+          { route: "promos" },
+          "",
+          `#promos/${encodeURIComponent(promo.id)}`
+        );
+        handleRouteChange();
+      });
+      listEl.appendChild(card);
+    });
+  } catch (error) {
+    listEl.textContent =
+      "No se pudieron cargar las promociones. Intenta más tarde.";
+  }
+}
+
+async function setupPromoDetailView(promoIdRaw) {
+  const container = document.getElementById("promoDetail");
+  const backBtn = document.getElementById("promoBackBtn");
+  if (!container) return;
+
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      history.pushState({ route: "promos" }, "", "#promos");
+      handleRouteChange();
+    });
+  }
+
+  try {
+    await ensurePromosLoaded();
+    const promoId = decodeURIComponent(promoIdRaw || "");
+    const promo = promos.find((p) => p.id === promoId);
+    if (!promo) {
+      container.textContent = "Promoción no encontrada.";
+      return;
+    }
+
+    container.replaceChildren();
+
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "promo-detail-image";
+    const img = document.createElement("img");
+    img.src = promo.image || "";
+    img.alt = "";
+    imgWrap.appendChild(img);
+
+    const title = document.createElement("h1");
+    title.className = "promo-detail-title";
+    title.textContent = promo.name;
+
+    const dates = document.createElement("p");
+    dates.className = "promo-detail-dates";
+    dates.textContent =
+      "Vigencia: " + formatPromoDateRange(promo.startDate, promo.endDate);
+
+    const desc = document.createElement("p");
+    desc.className = "promo-detail-desc";
+    desc.textContent = promo.description || "";
+
+    container.append(imgWrap, title, dates, desc);
+  } catch (error) {
+    container.textContent = "No se pudo cargar la promoción.";
+  }
+}
+
 async function setupWineryDetailView(wineryIdRaw) {
   const container = document.getElementById("wineryDetail");
   const backBtn = document.getElementById("wineryBackBtn");
@@ -183,11 +576,17 @@ async function setupWineryDetailView(wineryIdRaw) {
 
     const callBtn = actionButton("Llamar", winery.phone ? `tel:${normalizeTel(winery.phone)}` : "");
     const webBtn = actionButton("Abrir web", winery.webpage || "");
+    const hasCoords =
+      typeof winery.lat === "number" && typeof winery.lng === "number";
+    const navHref = hasCoords ? `geo:${winery.lat},${winery.lng}` : "";
+    const navBtn = actionButton("Navegación", navHref);
+    navBtn.setAttribute("aria-label", "Abrir en mapa con la ubicación de la bodega");
 
     if (!winery.phone) callBtn.disabled = true;
     if (!winery.webpage) webBtn.disabled = true;
+    if (!navHref) navBtn.disabled = true;
 
-    actions.append(callBtn, webBtn);
+    actions.append(callBtn, webBtn, navBtn);
 
     container.append(header, info, actions);
   } catch (error) {
@@ -206,6 +605,22 @@ function enhanceRoute(route, rest = []) {
   }
   if (route === "map") {
     setupMapView();
+    return;
+  }
+  if (route === "events") {
+    setupEventsView();
+    return;
+  }
+  if (route === "eventDetail") {
+    setupEventDetailView(rest[0]);
+    return;
+  }
+  if (route === "promos") {
+    setupPromosView();
+    return;
+  }
+  if (route === "promoDetail") {
+    setupPromoDetailView(rest[0]);
   }
 }
 
@@ -323,6 +738,134 @@ function actionButton(text, href) {
   });
   return a;
 }
+
+// ——— PWA Install (show only when not installed; iOS = instructions only) ———
+const INSTALL_DISMISSED_KEY = "provino_install_dismissed";
+let deferredPrompt = null;
+
+const installBtn = document.getElementById("installBtn");
+const installSheet = document.getElementById("installSheet");
+const installSheetTitle = document.getElementById("installSheetTitle");
+const installSheetText = document.getElementById("installSheetText");
+const installSheetPrimary = document.getElementById("installSheetPrimary");
+const installSheetClose = document.getElementById("installSheetClose");
+
+function isRunningStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+
+function isInstallDismissed() {
+  return window.sessionStorage.getItem(INSTALL_DISMISSED_KEY) === "1";
+}
+
+function hideInstallUI(permanent = false) {
+  if (installBtn) installBtn.hidden = true;
+  if (installSheet) {
+    installSheet.hidden = true;
+    installSheet.classList.remove("is-visible");
+  }
+  if (permanent) window.sessionStorage.setItem(INSTALL_DISMISSED_KEY, "1");
+}
+
+// When already installed (opened from home screen), never show install UI
+if (isRunningStandalone()) {
+  hideInstallUI(false);
+} else {
+  // Android (and others): show header button when beforeinstallprompt fires
+  window.addEventListener("beforeinstallprompt", (e) => {
+    if (isInstallDismissed()) return;
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+    // Optional: auto-show bottom sheet on first visit
+    showInstallSheet(false);
+  });
+
+  // iOS: show header button; tapping it shows bottom sheet with instructions only
+  if (isIos) {
+    if (installBtn && !isInstallDismissed()) {
+      installBtn.hidden = false;
+    }
+  }
+}
+
+function showInstallSheet(forIos = false) {
+  if (!installSheet || isRunningStandalone() || isInstallDismissed()) return;
+  if (forIos) {
+    if (installSheetTitle) installSheetTitle.textContent = "Instalar Provino en iPhone/iPad";
+    if (installSheetText) {
+      installSheetText.textContent =
+        "En Safari: toca el botón Compartir (cuadrado con flecha) abajo o arriba, " +
+        "luego «Añadir a la pantalla de inicio». La app aparecerá en tu pantalla de inicio.";
+    }
+    if (installSheetPrimary) {
+      installSheetPrimary.textContent = "Entendido";
+      installSheetPrimary.style.display = "";
+    }
+  } else {
+    if (installSheetTitle) installSheetTitle.textContent = "Instala Provino";
+    if (installSheetText) {
+      installSheetText.textContent =
+        "Instala la app para acceder más rápido a bodegas, mapa y promociones del Valle de Guadalupe.";
+    }
+    if (installSheetPrimary) {
+      installSheetPrimary.textContent = "Instalar ahora";
+      installSheetPrimary.style.display = deferredPrompt ? "" : "none";
+    }
+  }
+  installSheet.hidden = false;
+  installSheet.classList.add("is-visible");
+}
+
+function handleInstallClick() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choice) => {
+      if (choice.outcome === "accepted") {
+        deferredPrompt = null;
+        hideInstallUI(true);
+      }
+    });
+    return;
+  }
+  if (isIos) {
+    showInstallSheet(true);
+  }
+}
+
+if (installBtn) {
+  installBtn.addEventListener("click", () => {
+    if (isIos) showInstallSheet(true);
+    else handleInstallClick();
+  });
+}
+
+if (installSheetPrimary) {
+  installSheetPrimary.addEventListener("click", () => {
+    if (deferredPrompt) {
+      handleInstallClick();
+    } else {
+      installSheet.classList.remove("is-visible");
+      installSheet.hidden = true;
+    }
+  });
+}
+
+if (installSheetClose) {
+  installSheetClose.addEventListener("click", () => {
+    hideInstallUI(true);
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  deferredPrompt = null;
+  hideInstallUI(true);
+});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

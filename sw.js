@@ -1,11 +1,13 @@
-const CACHE_NAME = "provino-shell-v3";
+const CACHE_NAME = "provino-shell-v5";
 const OFFLINE_URLS = [
   "/",
   "/index.html",
   "/css/styles.css",
   "/js/app.js",
   "/manifest.json",
-  "/data/vinicolas.json"
+  "/data/vinicolas.json",
+  "/data/eventos.json",
+  "/data/promos.json"
 ];
 
 self.addEventListener("install", (event) => {

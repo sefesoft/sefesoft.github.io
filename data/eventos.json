@@ -1,0 +1,30 @@
+[
+  {
+    "id": "aniversario-bodega-cielo",
+    "name": "Aniversario de Bodega Cielo",
+    "date": "2026-06-15",
+    "description": "Celebración del aniversario de El Cielo con degustaciones especiales, música en vivo y recorridos por viñedos. Incluye maridaje y acceso al jardín.",
+    "image": "https://picsum.photos/seed/cielo/800/400"
+  },
+  {
+    "id": "concurso-paellas",
+    "name": "Concurso de paellas",
+    "date": "2026-08-22",
+    "description": "Concurso gastronómico de paellas en el Valle de Guadalupe. Participan restaurantes y bodegas con maridaje de vinos locales. Entrada con degustación incluida.",
+    "image": "https://picsum.photos/seed/paella/800/400"
+  },
+  {
+    "id": "muestra-vino",
+    "name": "Muestra del vino",
+    "date": "2026-09-12",
+    "description": "Muestra anual de vinos del Valle de Guadalupe. Más de 30 bodegas participan con sus etiquetas. Catas guiadas y venta directa.",
+    "image": "https://picsum.photos/seed/muestra/800/400"
+  },
+  {
+    "id": "cena-maridaje-adobe",
+    "name": "Cena Maridaje en Adobe Guadalupe",
+    "date": "2026-11-08",
+    "description": "Cena de cinco tiempos maridada con los vinos de Adobe Guadalupe. Noche bajo las estrellas en la terraza de la hacienda. Reservación previa.",
+    "image": "https://picsum.photos/seed/adobe/800/400"
+  }
+]

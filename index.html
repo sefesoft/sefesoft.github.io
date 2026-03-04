@@ -26,6 +26,7 @@
           <span class="brand-title">Provino</span>
           <span class="brand-subtitle">Valle de Guadalupe</span>
         </div>
+        <button class="install-btn" id="installBtn" hidden type="button">Instalar App</button>
       </header>
 
       <nav class="app-nav" aria-label="Navegación principal">
@@ -38,6 +39,23 @@
       </nav>
 
       <main id="app" class="app-main" role="main" aria-live="polite"></main>
+
+      <div class="install-sheet" id="installSheet" hidden aria-live="polite">
+        <div class="install-sheet-inner">
+          <h2 class="install-sheet-title" id="installSheetTitle">Instala Provino</h2>
+          <p class="install-sheet-text" id="installSheetText">
+            Instala la app para acceder más rápido a bodegas, mapa y promociones del Valle de Guadalupe.
+          </p>
+          <div class="install-sheet-actions">
+            <button class="install-sheet-primary" id="installSheetPrimary" type="button">
+              Instalar ahora
+            </button>
+            <button class="install-sheet-secondary" id="installSheetClose" type="button">
+              No mostrar de nuevo
+            </button>
+          </div>
+        </div>
+      </div>
 
       <template id="view-home">
         <section class="view">
@@ -70,8 +88,16 @@
         <section class="view">
           <h1 class="view-title">Eventos</h1>
           <p class="view-text">
-            Próximamente podrás ver eventos destacados y experiencias en la región.
+            Eventos y experiencias en el Valle de Guadalupe. Toca uno para ver detalles.
           </p>
+          <div id="eventsList" class="events-list"></div>
+        </section>
+      </template>
+
+      <template id="view-event-detail">
+        <section class="view">
+          <button class="back-btn" id="eventBackBtn" type="button">Volver a Eventos</button>
+          <div id="eventDetail" class="event-detail"></div>
         </section>
       </template>
 
@@ -79,8 +105,16 @@
         <section class="view">
           <h1 class="view-title">Promociones</h1>
           <p class="view-text">
-            Ofertas, catas especiales y experiencias en promoción estarán disponibles aquí.
+            Ofertas y promociones vigentes en el Valle de Guadalupe. Toca una para ver detalles.
           </p>
+          <div id="promosList" class="promos-list"></div>
+        </section>
+      </template>
+
+      <template id="view-promo-detail">
+        <section class="view">
+          <button class="back-btn" id="promoBackBtn" type="button">Volver a Promociones</button>
+          <div id="promoDetail" class="promo-detail"></div>
         </section>
       </template>
 
