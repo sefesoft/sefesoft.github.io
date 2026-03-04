@@ -1,30 +1,54 @@
 [
   {
     "id": "aniversario-bodega-cielo",
-    "name": "Aniversario de Bodega Cielo",
+    "name": {
+      "es": "Aniversario de Bodega Cielo",
+      "en": "El Cielo Winery Anniversary"
+    },
     "date": "2026-06-15",
-    "description": "Celebración del aniversario de El Cielo con degustaciones especiales, música en vivo y recorridos por viñedos. Incluye maridaje y acceso al jardín.",
+    "description": {
+      "es": "Celebración del aniversario de El Cielo con degustaciones especiales, música en vivo y recorridos por viñedos. Incluye maridaje y acceso al jardín.",
+      "en": "El Cielo anniversary celebration with special tastings, live music and vineyard tours. Includes food pairing and garden access."
+    },
     "image": "https://picsum.photos/seed/cielo/800/400"
   },
   {
     "id": "concurso-paellas",
-    "name": "Concurso de paellas",
+    "name": {
+      "es": "Concurso de paellas",
+      "en": "Paella contest"
+    },
     "date": "2026-08-22",
-    "description": "Concurso gastronómico de paellas en el Valle de Guadalupe. Participan restaurantes y bodegas con maridaje de vinos locales. Entrada con degustación incluida.",
+    "description": {
+      "es": "Concurso gastronómico de paellas en el Valle de Guadalupe. Participan restaurantes y bodegas con maridaje de vinos locales. Entrada con degustación incluida.",
+      "en": "Paella cooking contest in Valle de Guadalupe. Restaurants and wineries participate with local wine pairings. Admission includes tasting."
+    },
     "image": "https://picsum.photos/seed/paella/800/400"
   },
   {
     "id": "muestra-vino",
-    "name": "Muestra del vino",
+    "name": {
+      "es": "Muestra del vino",
+      "en": "Wine showcase"
+    },
     "date": "2026-09-12",
-    "description": "Muestra anual de vinos del Valle de Guadalupe. Más de 30 bodegas participan con sus etiquetas. Catas guiadas y venta directa.",
+    "description": {
+      "es": "Muestra anual de vinos del Valle de Guadalupe. Más de 30 bodegas participan con sus etiquetas. Catas guiadas y venta directa.",
+      "en": "Annual Valle de Guadalupe wine showcase. Over 30 wineries with their labels. Guided tastings and direct sales."
+    },
     "image": "https://picsum.photos/seed/muestra/800/400"
   },
   {
     "id": "cena-maridaje-adobe",
-    "name": "Cena Maridaje en Adobe Guadalupe",
+    "name": {
+      "es": "Cena Maridaje en Adobe Guadalupe",
+      "en": "Wine pairing dinner at Adobe Guadalupe"
+    },
     "date": "2026-11-08",
-    "description": "Cena de cinco tiempos maridada con los vinos de Adobe Guadalupe. Noche bajo las estrellas en la terraza de la hacienda. Reservación previa.",
+    "description": {
+      "es": "Cena de cinco tiempos maridada con los vinos de Adobe Guadalupe. Noche bajo las estrellas en la terraza de la hacienda. Reservación previa.",
+      "en": "Five-course dinner paired with Adobe Guadalupe wines. Evening under the stars on the hacienda terrace. Advance reservation required."
+    },
     "image": "https://picsum.photos/seed/adobe/800/400"
   }
 ]

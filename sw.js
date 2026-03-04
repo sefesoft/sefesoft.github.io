@@ -1,9 +1,10 @@
-const CACHE_NAME = "provino-shell-v5";
+const CACHE_NAME = "provino-shell-v6";
 const OFFLINE_URLS = [
   "/",
   "/index.html",
   "/css/styles.css",
   "/js/app.js",
+  "/js/i18n.js",
   "/manifest.json",
   "/data/vinicolas.json",
   "/data/eventos.json",

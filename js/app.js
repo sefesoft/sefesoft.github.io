@@ -1,3 +1,13 @@
+import { t, applyTranslations, setLangToggleState, setLocale, getLocale } from "./i18n.js";
+
+/** Resolve a localized field (object with es/en) or plain string; fallback to Spanish if locale missing. */
+function localizeField(field, preferredLocale) {
+  if (field == null) return "";
+  if (typeof field === "string") return field;
+  const locale = preferredLocale || getLocale();
+  return field[locale] ?? field.es ?? field.en ?? "";
+}
+
 const routes = {
   home: "view-home",
   wineries: "view-wineries",
@@ -7,12 +17,10 @@ const routes = {
   promos: "view-promos",
   promoDetail: "view-promo-detail",
   map: "view-map",
-  i18n: "view-i18n",
 };
 
 const appRoot = document.getElementById("app");
 const navButtons = Array.from(document.querySelectorAll(".nav-link"));
-const yearEl = document.getElementById("year");
 let wineries = [];
 let wineriesLoaded = false;
 let events = [];
@@ -21,10 +29,6 @@ let promos = [];
 let promosLoaded = false;
 let mapInstance = null;
 let mapMarkersLayer = null;
-
-if (yearEl) {
-  yearEl.textContent = String(new Date().getFullYear());
-}
 
 function renderRoute(route) {
   const templateId = routes[route] || routes.home;
@@ -65,6 +69,7 @@ function handleRouteChange() {
   renderRoute(route);
   setActiveNav(route);
   enhanceRoute(route, rest);
+  applyTranslations();
 }
 
 navButtons.forEach((btn) => {
@@ -81,6 +86,18 @@ window.addEventListener("popstate", (event) => {
   handleRouteChange();
 });
 
+document.querySelectorAll(".lang-option").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const lang = btn.getAttribute("data-lang");
+    if (lang !== "es" && lang !== "en") return;
+    setLocale(lang);
+    setLangToggleState();
+    applyTranslations();
+    handleRouteChange();
+  });
+});
+
+setLangToggleState();
 handleRouteChange();
 
 async function ensureWineriesLoaded() {
@@ -103,21 +120,21 @@ async function setupWineriesView() {
     listEl.replaceChildren();
     wineries.forEach((winery) => {
       if (!winery?.name) return;
-      const id = slugify(winery.name);
+      const id = slugify(localizeField(winery.name, "es"));
 
       const button = document.createElement("button");
       button.type = "button";
       button.className = "winery-card";
       button.dataset.wineryId = id;
-      button.setAttribute("aria-label", `Abrir ${winery.name}`);
+      button.setAttribute("aria-label", `Abrir ${localizeField(winery.name)}`);
 
       const logo = document.createElement("div");
       logo.className = "winery-card-logo";
-      logo.textContent = initialsFromName(winery.name);
+      logo.textContent = initialsFromName(localizeField(winery.name));
 
       const name = document.createElement("div");
       name.className = "winery-card-name";
-      name.textContent = winery.name;
+      name.textContent = localizeField(winery.name);
 
       const chevron = document.createElement("div");
       chevron.className = "winery-card-chevron";
@@ -136,8 +153,7 @@ async function setupWineriesView() {
       listEl.appendChild(button);
     });
   } catch (error) {
-    listEl.textContent =
-      "No se pudieron cargar las bodegas en este momento. Intenta nuevamente más tarde.";
+    listEl.textContent = t("wineries.loadError");
   }
 }
 
@@ -188,8 +204,8 @@ function buildIcsForEvent(event) {
   const end = endDate
     ? endDate.toISOString().slice(0, 10).replace(/-/g, "")
     : start;
-  const summary = escapeIcsText(event.name || "Evento");
-  const description = escapeIcsText(event.description || "");
+  const summary = escapeIcsText(localizeField(event.name) || "Evento");
+  const description = escapeIcsText(localizeField(event.description) || "");
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -230,8 +246,8 @@ function getGoogleCalendarUrl(event) {
     : start;
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: event.name || "Evento",
-    details: event.description || "",
+    text: localizeField(event.name) || "Evento",
+    details: localizeField(event.description) || "",
     dates: `${start}/${end}`,
   });
   return "https://calendar.google.com/calendar/render?" + params.toString();
@@ -255,8 +271,10 @@ async function setupEventsView() {
     listEl.replaceChildren();
 
     if (upcoming.length === 0) {
-      listEl.innerHTML =
-        '<p class="view-text">No hay eventos próximos en este momento. Vuelve pronto.</p>';
+      const p = document.createElement("p");
+      p.className = "view-text";
+      p.textContent = t("events.empty");
+      listEl.replaceChildren(p);
       return;
     }
 
@@ -264,7 +282,7 @@ async function setupEventsView() {
       const card = document.createElement("button");
       card.type = "button";
       card.className = "event-card";
-      card.setAttribute("aria-label", `Ver ${event.name}`);
+      card.setAttribute("aria-label", `Ver ${localizeField(event.name)}`);
 
       const imgWrap = document.createElement("div");
       imgWrap.className = "event-card-image";
@@ -278,13 +296,14 @@ async function setupEventsView() {
       body.className = "event-card-body";
       const title = document.createElement("div");
       title.className = "event-card-title";
-      title.textContent = event.name;
+      title.textContent = localizeField(event.name);
       const date = document.createElement("div");
       date.className = "event-card-date";
       date.textContent = formatEventDate(event.date);
       const desc = document.createElement("div");
       desc.className = "event-card-desc";
-      desc.textContent = (event.description || "").slice(0, 80) + ((event.description || "").length > 80 ? "…" : "");
+      const eventDesc = localizeField(event.description) || "";
+      desc.textContent = eventDesc.slice(0, 80) + (eventDesc.length > 80 ? "…" : "");
       body.append(title, date, desc);
 
       const chevron = document.createElement("div");
@@ -303,8 +322,7 @@ async function setupEventsView() {
       listEl.appendChild(card);
     });
   } catch (error) {
-    listEl.textContent =
-      "No se pudieron cargar los eventos en este momento. Intenta más tarde.";
+    listEl.textContent = t("events.loadError");
   }
 }
 
@@ -325,7 +343,7 @@ async function setupEventDetailView(eventIdRaw) {
     const eventId = decodeURIComponent(eventIdRaw || "");
     const event = events.find((e) => e.id === eventId);
     if (!event) {
-      container.textContent = "Evento no encontrado.";
+      container.textContent = t("events.notFound");
       return;
     }
 
@@ -340,7 +358,7 @@ async function setupEventDetailView(eventIdRaw) {
 
     const title = document.createElement("h1");
     title.className = "event-detail-title";
-    title.textContent = event.name;
+    title.textContent = localizeField(event.name);
 
     const date = document.createElement("p");
     date.className = "event-detail-date";
@@ -348,7 +366,7 @@ async function setupEventDetailView(eventIdRaw) {
 
     const desc = document.createElement("p");
     desc.className = "event-detail-desc";
-    desc.textContent = event.description || "";
+    desc.textContent = localizeField(event.description) || "";
 
     const actions = document.createElement("div");
     actions.className = "event-detail-actions";
@@ -358,19 +376,19 @@ async function setupEventDetailView(eventIdRaw) {
     googleBtn.href = getGoogleCalendarUrl(event);
     googleBtn.target = "_blank";
     googleBtn.rel = "noopener noreferrer";
-    googleBtn.textContent = "Google Calendar";
+    googleBtn.textContent = t("events.googleCalendar");
     googleBtn.setAttribute("aria-label", addToCalendarLabel + " (Google)");
     const icsBtn = document.createElement("button");
     icsBtn.type = "button";
     icsBtn.className = "event-action event-action-ics";
-    icsBtn.textContent = "Descargar .ics";
+    icsBtn.textContent = t("events.downloadIcs");
     icsBtn.setAttribute("aria-label", addToCalendarLabel + " (archivo .ics para iOS / Apple Calendar)");
     icsBtn.addEventListener("click", () => downloadIcsForEvent(event));
     actions.append(googleBtn, icsBtn);
 
     container.append(imgWrap, title, date, desc, actions);
   } catch (error) {
-    container.textContent = "No se pudo cargar el evento.";
+    container.textContent = t("events.detailError");
   }
 }
 
@@ -414,8 +432,10 @@ async function setupPromosView() {
     listEl.replaceChildren();
 
     if (active.length === 0) {
-      listEl.innerHTML =
-        '<p class="view-text">No hay promociones vigentes en este momento. Vuelve pronto.</p>';
+      const p = document.createElement("p");
+      p.className = "view-text";
+      p.textContent = t("promos.empty");
+      listEl.replaceChildren(p);
       return;
     }
 
@@ -423,7 +443,7 @@ async function setupPromosView() {
       const card = document.createElement("button");
       card.type = "button";
       card.className = "promo-card";
-      card.setAttribute("aria-label", `Ver ${promo.name}`);
+      card.setAttribute("aria-label", `Ver ${localizeField(promo.name)}`);
 
       const imgWrap = document.createElement("div");
       imgWrap.className = "promo-card-image";
@@ -437,15 +457,14 @@ async function setupPromosView() {
       body.className = "promo-card-body";
       const title = document.createElement("div");
       title.className = "promo-card-title";
-      title.textContent = promo.name;
+      title.textContent = localizeField(promo.name);
       const dates = document.createElement("div");
       dates.className = "promo-card-dates";
       dates.textContent = formatPromoDateRange(promo.startDate, promo.endDate);
       const desc = document.createElement("div");
       desc.className = "promo-card-desc";
-      desc.textContent =
-        (promo.description || "").slice(0, 80) +
-        ((promo.description || "").length > 80 ? "…" : "");
+      const promoDesc = localizeField(promo.description) || "";
+      desc.textContent = promoDesc.slice(0, 80) + (promoDesc.length > 80 ? "…" : "");
       body.append(title, dates, desc);
 
       const chevron = document.createElement("div");
@@ -464,8 +483,7 @@ async function setupPromosView() {
       listEl.appendChild(card);
     });
   } catch (error) {
-    listEl.textContent =
-      "No se pudieron cargar las promociones. Intenta más tarde.";
+    listEl.textContent = t("promos.loadError");
   }
 }
 
@@ -486,7 +504,7 @@ async function setupPromoDetailView(promoIdRaw) {
     const promoId = decodeURIComponent(promoIdRaw || "");
     const promo = promos.find((p) => p.id === promoId);
     if (!promo) {
-      container.textContent = "Promoción no encontrada.";
+      container.textContent = t("promos.notFound");
       return;
     }
 
@@ -501,20 +519,20 @@ async function setupPromoDetailView(promoIdRaw) {
 
     const title = document.createElement("h1");
     title.className = "promo-detail-title";
-    title.textContent = promo.name;
+    title.textContent = localizeField(promo.name);
 
     const dates = document.createElement("p");
     dates.className = "promo-detail-dates";
     dates.textContent =
-      "Vigencia: " + formatPromoDateRange(promo.startDate, promo.endDate);
+      t("promos.validity") + formatPromoDateRange(promo.startDate, promo.endDate);
 
     const desc = document.createElement("p");
     desc.className = "promo-detail-desc";
-    desc.textContent = promo.description || "";
+    desc.textContent = localizeField(promo.description) || "";
 
     container.append(imgWrap, title, dates, desc);
   } catch (error) {
-    container.textContent = "No se pudo cargar la promoción.";
+    container.textContent = t("promos.detailError");
   }
 }
 
@@ -533,9 +551,11 @@ async function setupWineryDetailView(wineryIdRaw) {
   try {
     await ensureWineriesLoaded();
     const wineryId = decodeURIComponent(wineryIdRaw || "");
-    const winery = wineries.find((w) => slugify(w?.name || "") === wineryId);
+    const winery = wineries.find(
+      (w) => slugify(localizeField(w?.name, "es") || "") === wineryId
+    );
     if (!winery) {
-      container.textContent = "Bodega no encontrada.";
+      container.textContent = t("wineries.notFound");
       return;
     }
 
@@ -546,18 +566,18 @@ async function setupWineryDetailView(wineryIdRaw) {
 
     const badge = document.createElement("div");
     badge.className = "winery-detail-badge";
-    badge.textContent = initialsFromName(winery.name);
+    badge.textContent = initialsFromName(localizeField(winery.name));
 
     const titleWrap = document.createElement("div");
     titleWrap.className = "winery-detail-titlewrap";
 
     const title = document.createElement("h1");
     title.className = "winery-detail-title";
-    title.textContent = winery.name;
+    title.textContent = localizeField(winery.name);
 
     const desc = document.createElement("p");
     desc.className = "winery-detail-desc";
-    desc.textContent = winery.description || "";
+    desc.textContent = localizeField(winery.description) || "";
 
     titleWrap.append(title, desc);
     header.append(badge, titleWrap);
@@ -565,22 +585,22 @@ async function setupWineryDetailView(wineryIdRaw) {
     const info = document.createElement("div");
     info.className = "winery-detail-info";
 
-    const address = infoRow("Dirección", winery.address);
-    const phone = infoRow("Teléfono", winery.phone);
-    const web = infoRow("Web", winery.webpage);
+    const address = infoRow(t("winery.address"), localizeField(winery.address));
+    const phone = infoRow(t("winery.phone"), winery.phone);
+    const web = infoRow(t("winery.web"), winery.webpage);
 
     info.append(address, phone, web);
 
     const actions = document.createElement("div");
     actions.className = "winery-detail-actions";
 
-    const callBtn = actionButton("Llamar", winery.phone ? `tel:${normalizeTel(winery.phone)}` : "");
-    const webBtn = actionButton("Abrir web", winery.webpage || "");
+    const callBtn = actionButton(t("winery.call"), winery.phone ? `tel:${normalizeTel(winery.phone)}` : "");
+    const webBtn = actionButton(t("winery.openWeb"), winery.webpage || "");
     const hasCoords =
       typeof winery.lat === "number" && typeof winery.lng === "number";
     const navHref = hasCoords ? `geo:${winery.lat},${winery.lng}` : "";
-    const navBtn = actionButton("Navegación", navHref);
-    navBtn.setAttribute("aria-label", "Abrir en mapa con la ubicación de la bodega");
+    const navBtn = actionButton(t("winery.navigation"), navHref);
+    navBtn.setAttribute("aria-label", t("winery.navigation"));
 
     if (!winery.phone) callBtn.disabled = true;
     if (!winery.webpage) webBtn.disabled = true;
@@ -590,7 +610,7 @@ async function setupWineryDetailView(wineryIdRaw) {
 
     container.append(header, info, actions);
   } catch (error) {
-    container.textContent = "No se pudo cargar la información de la bodega.";
+    container.textContent = t("wineries.detailError");
   }
 }
 
@@ -675,8 +695,8 @@ async function setupMapView() {
       fillOpacity: 0.85,
     });
 
-    const popupHtml = `<strong>${winery.name}</strong><br><span style="font-size:0.8rem;">${
-      winery.address || ""
+    const popupHtml = `<strong>${localizeField(winery.name)}</strong><br><span style="font-size:0.8rem;">${
+      localizeField(winery.address) || ""
     }</span>`;
 
     marker.bindPopup(popupHtml);
@@ -797,24 +817,17 @@ if (isRunningStandalone()) {
 function showInstallSheet(forIos = false) {
   if (!installSheet || isRunningStandalone() || isInstallDismissed()) return;
   if (forIos) {
-    if (installSheetTitle) installSheetTitle.textContent = "Instalar Provino en iPhone/iPad";
-    if (installSheetText) {
-      installSheetText.textContent =
-        "En Safari: toca el botón Compartir (cuadrado con flecha) abajo o arriba, " +
-        "luego «Añadir a la pantalla de inicio». La app aparecerá en tu pantalla de inicio.";
-    }
+    if (installSheetTitle) installSheetTitle.textContent = t("installSheet.titleIos");
+    if (installSheetText) installSheetText.textContent = t("installSheet.textIos");
     if (installSheetPrimary) {
-      installSheetPrimary.textContent = "Entendido";
+      installSheetPrimary.textContent = t("installSheet.primaryIos");
       installSheetPrimary.style.display = "";
     }
   } else {
-    if (installSheetTitle) installSheetTitle.textContent = "Instala Provino";
-    if (installSheetText) {
-      installSheetText.textContent =
-        "Instala la app para acceder más rápido a bodegas, mapa y promociones del Valle de Guadalupe.";
-    }
+    if (installSheetTitle) installSheetTitle.textContent = t("installSheet.title");
+    if (installSheetText) installSheetText.textContent = t("installSheet.text");
     if (installSheetPrimary) {
-      installSheetPrimary.textContent = "Instalar ahora";
+      installSheetPrimary.textContent = t("installSheet.primary");
       installSheetPrimary.style.display = deferredPrompt ? "" : "none";
     }
   }

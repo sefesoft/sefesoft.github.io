@@ -12,3 +12,4 @@
   - Data in /data
   - Keep sw.js and manifest.json in root.
 - If creating new files, always determine the correct subfolder based on this hierarchy.
+- When new logic is created, take into account the localization system and update the keys in /js/i18n.js

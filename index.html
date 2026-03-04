@@ -24,33 +24,38 @@
       <header class="app-header">
         <div class="brand">
           <span class="brand-title">Provino</span>
-          <span class="brand-subtitle">Valle de Guadalupe</span>
+          <span class="brand-subtitle" data-i18n="brand.subtitle">Valle de Guadalupe</span>
         </div>
-        <button class="install-btn" id="installBtn" hidden type="button">Instalar App</button>
+        <div class="header-actions">
+          <div class="lang-toggle" role="group" aria-label="Idioma">
+            <button class="lang-option is-active" type="button" data-lang="es" aria-pressed="true">ES</button>
+            <button class="lang-option" type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+          <button class="install-btn" id="installBtn" hidden type="button" data-i18n="install.btn">Instalar App</button>
+        </div>
       </header>
 
       <nav class="app-nav" aria-label="Navegación principal">
-        <button class="nav-link is-active" data-route="home">Inicio</button>
-        <button class="nav-link" data-route="wineries">Bodegas</button>
-        <button class="nav-link" data-route="events">Eventos</button>
-        <button class="nav-link" data-route="promos">Promociones</button>
-        <button class="nav-link" data-route="map">Mapa</button>
-        <button class="nav-link" data-route="i18n">Idiomas</button>
+        <button class="nav-link is-active" data-route="home" data-i18n="nav.home">Inicio</button>
+        <button class="nav-link" data-route="wineries" data-i18n="nav.wineries">Bodegas</button>
+        <button class="nav-link" data-route="events" data-i18n="nav.events">Eventos</button>
+        <button class="nav-link" data-route="promos" data-i18n="nav.promos">Promociones</button>
+        <button class="nav-link" data-route="map" data-i18n="nav.map">Mapa</button>
       </nav>
 
       <main id="app" class="app-main" role="main" aria-live="polite"></main>
 
       <div class="install-sheet" id="installSheet" hidden aria-live="polite">
         <div class="install-sheet-inner">
-          <h2 class="install-sheet-title" id="installSheetTitle">Instala Provino</h2>
-          <p class="install-sheet-text" id="installSheetText">
+          <h2 class="install-sheet-title" id="installSheetTitle" data-i18n="installSheet.title">Instala Provino</h2>
+          <p class="install-sheet-text" id="installSheetText" data-i18n="installSheet.text">
             Instala la app para acceder más rápido a bodegas, mapa y promociones del Valle de Guadalupe.
           </p>
           <div class="install-sheet-actions">
-            <button class="install-sheet-primary" id="installSheetPrimary" type="button">
+            <button class="install-sheet-primary" id="installSheetPrimary" type="button" data-i18n="installSheet.primary">
               Instalar ahora
             </button>
-            <button class="install-sheet-secondary" id="installSheetClose" type="button">
+            <button class="install-sheet-secondary" id="installSheetClose" type="button" data-i18n="installSheet.close">
               No mostrar de nuevo
             </button>
           </div>
@@ -59,8 +64,8 @@
 
       <template id="view-home">
         <section class="view">
-          <h1 class="view-title">Bienvenido a Provino</h1>
-          <p class="view-text">
+          <h1 class="view-title" data-i18n="view.home.title">Bienvenido a Provino</h1>
+          <p class="view-text" data-i18n="view.home.text">
             Explora bodegas, eventos y promociones del Valle de Guadalupe desde una
             experiencia rápida y lista para instalar en tu teléfono.
           </p>
@@ -69,8 +74,8 @@
 
       <template id="view-wineries">
         <section class="view">
-          <h1 class="view-title">Bodegas</h1>
-          <p class="view-text">
+          <h1 class="view-title" data-i18n="view.wineries.title">Bodegas</h1>
+          <p class="view-text" data-i18n="view.wineries.text">
             Explora algunas de las bodegas más representativas del Valle de Guadalupe.
           </p>
           <div id="wineriesList" class="wineries-list"></div>
@@ -79,15 +84,15 @@
 
       <template id="view-winery-detail">
         <section class="view">
-          <button class="back-btn" id="wineryBackBtn" type="button">Volver a Bodegas</button>
+          <button class="back-btn" id="wineryBackBtn" type="button" data-i18n="back.wineries">Volver a Bodegas</button>
           <div id="wineryDetail" class="winery-detail"></div>
         </section>
       </template>
 
       <template id="view-events">
         <section class="view">
-          <h1 class="view-title">Eventos</h1>
-          <p class="view-text">
+          <h1 class="view-title" data-i18n="view.events.title">Eventos</h1>
+          <p class="view-text" data-i18n="view.events.text">
             Eventos y experiencias en el Valle de Guadalupe. Toca uno para ver detalles.
           </p>
           <div id="eventsList" class="events-list"></div>
@@ -96,15 +101,15 @@
 
       <template id="view-event-detail">
         <section class="view">
-          <button class="back-btn" id="eventBackBtn" type="button">Volver a Eventos</button>
+          <button class="back-btn" id="eventBackBtn" type="button" data-i18n="back.events">Volver a Eventos</button>
           <div id="eventDetail" class="event-detail"></div>
         </section>
       </template>
 
       <template id="view-promos">
         <section class="view">
-          <h1 class="view-title">Promociones</h1>
-          <p class="view-text">
+          <h1 class="view-title" data-i18n="view.promos.title">Promociones</h1>
+          <p class="view-text" data-i18n="view.promos.text">
             Ofertas y promociones vigentes en el Valle de Guadalupe. Toca una para ver detalles.
           </p>
           <div id="promosList" class="promos-list"></div>
@@ -113,15 +118,15 @@
 
       <template id="view-promo-detail">
         <section class="view">
-          <button class="back-btn" id="promoBackBtn" type="button">Volver a Promociones</button>
+          <button class="back-btn" id="promoBackBtn" type="button" data-i18n="back.promos">Volver a Promociones</button>
           <div id="promoDetail" class="promo-detail"></div>
         </section>
       </template>
 
       <template id="view-map">
         <section class="view">
-          <h1 class="view-title">Mapa interactivo</h1>
-          <p class="view-text">
+          <h1 class="view-title" data-i18n="view.map.title">Mapa interactivo</h1>
+          <p class="view-text" data-i18n="view.map.text">
             Descubre de un vistazo dónde se encuentran las bodegas del Valle de Guadalupe.
           </p>
           <div
@@ -129,25 +134,13 @@
             class="map-view"
             role="region"
             aria-label="Mapa con la ubicación de las bodegas"
+            data-i18n-aria-label="view.map.ariaLabel"
           ></div>
         </section>
       </template>
 
-      <template id="view-i18n">
-        <section class="view">
-          <h1 class="view-title">Idiomas y traducciones</h1>
-          <p class="view-text">
-            En esta sección se configurará el sistema de traducciones (i18n) para cambiar entre
-            español, inglés y otros idiomas.
-          </p>
-          <p class="view-text">
-            Más adelante podrás seleccionar tu idioma preferido y ver todo el contenido adaptado.
-          </p>
-        </section>
-      </template>
-
       <footer class="app-footer">
-        <small>&copy; <span id="year"></span> Provino - Valle de Guadalupe</small>
+        <small data-i18n="footer.copyright"></small>
       </footer>
     </div>
 

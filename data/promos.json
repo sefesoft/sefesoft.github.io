@@ -1,24 +1,42 @@
 [
   {
     "id": "cata-dos-por-uno",
-    "name": "Cata 2x1 en fin de semana",
-    "description": "Disfruta de una cata de vinos para dos al precio de una los sábados y domingos. Válido en bodegas participantes del Valle. Presenta este cupón en taquilla.",
+    "name": {
+      "es": "Cata 2x1 en fin de semana",
+      "en": "2-for-1 tasting on weekends"
+    },
+    "description": {
+      "es": "Disfruta de una cata de vinos para dos al precio de una los sábados y domingos. Válido en bodegas participantes del Valle. Presenta este cupón en taquilla.",
+      "en": "Enjoy a wine tasting for two at the price of one on Saturdays and Sundays. Valid at participating Valle wineries. Present this coupon at the counter."
+    },
     "startDate": "2026-03-01",
     "endDate": "2026-06-30",
     "image": "https://picsum.photos/seed/promo-cata/800/400"
   },
   {
     "id": "maridaje-nocturno",
-    "name": "Maridaje bajo las estrellas",
-    "description": "Experiencia de cena maridada al aire libre con vista al viñedo. Incluye tres tiempos y tres copas de vino seleccionado. 20% de descuento reservando con 48 h de anticipación.",
+    "name": {
+      "es": "Maridaje bajo las estrellas",
+      "en": "Dinner under the stars"
+    },
+    "description": {
+      "es": "Experiencia de cena maridada al aire libre con vista al viñedo. Incluye tres tiempos y tres copas de vino seleccionado. 20% de descuento reservando con 48 h de anticipación.",
+      "en": "Outdoor wine-paired dinner experience with vineyard views. Includes three courses and three glasses of selected wine. 20% off when booking 48 hours in advance."
+    },
     "startDate": "2026-04-01",
     "endDate": "2026-09-15",
     "image": "https://picsum.photos/seed/promo-maridaje/800/400"
   },
   {
     "id": "tour-vinedos-descuento",
-    "name": "Tour viñedos con descuento",
-    "description": "Recorrido guiado por viñedos del Valle con degustación incluida. Precio especial por tiempo limitado. Incluye transporte desde punto de encuentro en Ensenada.",
+    "name": {
+      "es": "Tour viñedos con descuento",
+      "en": "Vineyard tour discount"
+    },
+    "description": {
+      "es": "Recorrido guiado por viñedos del Valle con degustación incluida. Precio especial por tiempo limitado. Incluye transporte desde punto de encuentro en Ensenada.",
+      "en": "Guided tour of Valle vineyards with tasting included. Limited-time special price. Includes transport from meeting point in Ensenada."
+    },
     "startDate": "2026-01-15",
     "endDate": "2026-05-31",
     "image": "https://picsum.photos/seed/promo-tour/800/400"
