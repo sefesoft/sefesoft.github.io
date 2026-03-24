@@ -1,4 +1,4 @@
-const CACHE_NAME = "provino-shell-v6";
+const CACHE_NAME = "lupulo-shell-v1";
 const OFFLINE_URLS = [
   "/",
   "/index.html",
@@ -6,7 +6,7 @@ const OFFLINE_URLS = [
   "/js/app.js",
   "/js/i18n.js",
   "/manifest.json",
-  "/data/vinicolas.json",
+  "/data/cervecerias.json",
   "/data/eventos.json",
   "/data/promos.json"
 ];

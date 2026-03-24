@@ -3,13 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Provino - Valle de Guadalupe</title>
+    <title>Lúpulo — Cerveza artesanal Baja</title>
     <meta
       name="description"
-      content="Directorio PWA de bodegas, eventos y promociones en el Valle de Guadalupe."
+      content="Directorio PWA de cervecerías artesanales, eventos y promociones en Baja California."
     />
     <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#7b1f3a" />
+    <meta name="theme-color" content="#b8621a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" href="assets/icons/icon-192.png" />
     <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
     <link
@@ -23,8 +29,8 @@
     <div class="app-shell">
       <header class="app-header">
         <div class="brand">
-          <span class="brand-title">Provino</span>
-          <span class="brand-subtitle" data-i18n="brand.subtitle">Valle de Guadalupe</span>
+          <span class="brand-title">Lúpulo</span>
+          <span class="brand-subtitle" data-i18n="brand.subtitle">Cerveza artesanal · Baja</span>
         </div>
         <div class="header-actions">
           <div class="lang-toggle" role="group" aria-label="Idioma">
@@ -37,7 +43,7 @@
 
       <nav class="app-nav" aria-label="Navegación principal">
         <button class="nav-link is-active" data-route="home" data-i18n="nav.home">Inicio</button>
-        <button class="nav-link" data-route="wineries" data-i18n="nav.wineries">Bodegas</button>
+        <button class="nav-link" data-route="breweries" data-i18n="nav.breweries">Cervecerías</button>
         <button class="nav-link" data-route="events" data-i18n="nav.events">Eventos</button>
         <button class="nav-link" data-route="promos" data-i18n="nav.promos">Promociones</button>
         <button class="nav-link" data-route="map" data-i18n="nav.map">Mapa</button>
@@ -47,9 +53,9 @@
 
       <div class="install-sheet" id="installSheet" hidden aria-live="polite">
         <div class="install-sheet-inner">
-          <h2 class="install-sheet-title" id="installSheetTitle" data-i18n="installSheet.title">Instala Provino</h2>
+          <h2 class="install-sheet-title" id="installSheetTitle" data-i18n="installSheet.title">Instala Lúpulo</h2>
           <p class="install-sheet-text" id="installSheetText" data-i18n="installSheet.text">
-            Instala la app para acceder más rápido a bodegas, mapa y promociones del Valle de Guadalupe.
+            Instala la app para acceder más rápido a cervecerías, mapa y promociones.
           </p>
           <div class="install-sheet-actions">
             <button class="install-sheet-primary" id="installSheetPrimary" type="button" data-i18n="installSheet.primary">
@@ -64,28 +70,27 @@
 
       <template id="view-home">
         <section class="view">
-          <h1 class="view-title" data-i18n="view.home.title">Bienvenido a Provino</h1>
+          <h1 class="view-title" data-i18n="view.home.title">Bienvenido a Lúpulo</h1>
           <p class="view-text" data-i18n="view.home.text">
-            Explora bodegas, eventos y promociones del Valle de Guadalupe desde una
-            experiencia rápida y lista para instalar en tu teléfono.
+            Explora cervecerías artesanales, eventos y promociones en Baja California desde una experiencia rápida y lista para instalar en tu teléfono.
           </p>
         </section>
       </template>
 
-      <template id="view-wineries">
+      <template id="view-breweries">
         <section class="view">
-          <h1 class="view-title" data-i18n="view.wineries.title">Bodegas</h1>
-          <p class="view-text" data-i18n="view.wineries.text">
-            Explora algunas de las bodegas más representativas del Valle de Guadalupe.
+          <h1 class="view-title" data-i18n="view.breweries.title">Cervecerías</h1>
+          <p class="view-text" data-i18n="view.breweries.text">
+            Descubre tap rooms y fábricas con estilo propio en la escena craft de la región.
           </p>
-          <div id="wineriesList" class="wineries-list"></div>
+          <div id="breweriesList" class="breweries-list"></div>
         </section>
       </template>
 
-      <template id="view-winery-detail">
+      <template id="view-brewery-detail">
         <section class="view">
-          <button class="back-btn" id="wineryBackBtn" type="button" data-i18n="back.wineries">Volver a Bodegas</button>
-          <div id="wineryDetail" class="winery-detail"></div>
+          <button class="back-btn" id="breweryBackBtn" type="button" data-i18n="back.breweries">Volver a Cervecerías</button>
+          <div id="breweryDetail" class="brewery-detail"></div>
         </section>
       </template>
 
@@ -93,7 +98,7 @@
         <section class="view">
           <h1 class="view-title" data-i18n="view.events.title">Eventos</h1>
           <p class="view-text" data-i18n="view.events.text">
-            Eventos y experiencias en el Valle de Guadalupe. Toca uno para ver detalles.
+            Festivales, catas y experiencias cerveceras. Toca uno para ver detalles.
           </p>
           <div id="eventsList" class="events-list"></div>
         </section>
@@ -110,7 +115,7 @@
         <section class="view">
           <h1 class="view-title" data-i18n="view.promos.title">Promociones</h1>
           <p class="view-text" data-i18n="view.promos.text">
-            Ofertas y promociones vigentes en el Valle de Guadalupe. Toca una para ver detalles.
+            Ofertas vigentes en tap rooms y cervecerías. Toca una para ver detalles.
           </p>
           <div id="promosList" class="promos-list"></div>
         </section>
@@ -125,15 +130,15 @@
 
       <template id="view-map">
         <section class="view">
-          <h1 class="view-title" data-i18n="view.map.title">Mapa interactivo</h1>
+          <h1 class="view-title" data-i18n="view.map.title">Mapa de cervecerías</h1>
           <p class="view-text" data-i18n="view.map.text">
-            Descubre de un vistazo dónde se encuentran las bodegas del Valle de Guadalupe.
+            Ubica tap rooms y producción local en un mapa interactivo.
           </p>
           <div
             id="mapView"
             class="map-view"
             role="region"
-            aria-label="Mapa con la ubicación de las bodegas"
+            aria-label="Mapa con la ubicación de cervecerías"
             data-i18n-aria-label="view.map.ariaLabel"
           ></div>
         </section>

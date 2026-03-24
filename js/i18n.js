@@ -1,59 +1,59 @@
 /**
- * Localization (i18n) for Provino — Spanish and English.
+ * Localization (i18n) for Lúpulo — Spanish and English.
  * Export: t, applyTranslations, setLangToggleState, setLocale
  */
 
-export const LOCALE_KEY = "provino_locale";
+export const LOCALE_KEY = "lupulo_locale";
 export const DEFAULT_LOCALE = "es";
 
 export const translations = {
   es: {
-    "brand.subtitle": "Valle de Guadalupe",
+    "brand.subtitle": "Cerveza artesanal · Baja",
     "nav.home": "Inicio",
-    "nav.wineries": "Bodegas",
+    "nav.breweries": "Cervecerías",
     "nav.events": "Eventos",
     "nav.promos": "Promociones",
     "nav.map": "Mapa",
     "install.btn": "Instalar App",
-    "installSheet.title": "Instala Provino",
+    "installSheet.title": "Instala Lúpulo",
     "installSheet.text":
-      "Instala la app para acceder más rápido a bodegas, mapa y promociones del Valle de Guadalupe.",
+      "Instala la app para acceder más rápido a cervecerías, mapa y promociones en Baja California.",
     "installSheet.primary": "Instalar ahora",
     "installSheet.close": "No mostrar de nuevo",
-    "installSheet.titleIos": "Instalar Provino en iPhone/iPad",
+    "installSheet.titleIos": "Instalar Lúpulo en iPhone/iPad",
     "installSheet.textIos":
       "En Safari: toca el botón Compartir (cuadrado con flecha) abajo o arriba, luego «Añadir a la pantalla de inicio». La app aparecerá en tu pantalla de inicio.",
     "installSheet.primaryIos": "Entendido",
-    "view.home.title": "Bienvenido a Provino",
+    "view.home.title": "Bienvenido a Lúpulo",
     "view.home.text":
-      "Explora bodegas, eventos y promociones del Valle de Guadalupe desde una experiencia rápida y lista para instalar en tu teléfono.",
-    "view.wineries.title": "Bodegas",
-    "view.wineries.text":
-      "Explora algunas de las bodegas más representativas del Valle de Guadalupe.",
+      "Explora cervecerías artesanales, eventos y promociones en Baja California desde una experiencia rápida y lista para instalar en tu teléfono.",
+    "view.breweries.title": "Cervecerías",
+    "view.breweries.text":
+      "Descubre tap rooms y fábricas con estilo propio en la escena craft de la región.",
     "view.events.title": "Eventos",
     "view.events.text":
-      "Eventos y experiencias en el Valle de Guadalupe. Toca uno para ver detalles.",
+      "Festivales, catas y experiencias cerveceras. Toca uno para ver detalles.",
     "view.promos.title": "Promociones",
     "view.promos.text":
-      "Ofertas y promociones vigentes en el Valle de Guadalupe. Toca una para ver detalles.",
-    "view.map.title": "Mapa interactivo",
+      "Ofertas vigentes en tap rooms y cervecerías. Toca una para ver detalles.",
+    "view.map.title": "Mapa de cervecerías",
     "view.map.text":
-      "Descubre de un vistazo dónde se encuentran las bodegas del Valle de Guadalupe.",
-    "view.map.ariaLabel": "Mapa con la ubicación de las bodegas",
-    "back.wineries": "Volver a Bodegas",
+      "Ubica tap rooms y producción local en un mapa interactivo.",
+    "view.map.ariaLabel": "Mapa con la ubicación de cervecerías",
+    "back.breweries": "Volver a Cervecerías",
     "back.events": "Volver a Eventos",
     "back.promos": "Volver a Promociones",
-    "footer.copyright": "© {year} Provino - Valle de Guadalupe",
-    "wineries.loadError":
-      "No se pudieron cargar las bodegas en este momento. Intenta nuevamente más tarde.",
-    "wineries.notFound": "Bodega no encontrada.",
-    "wineries.detailError": "No se pudo cargar la información de la bodega.",
-    "winery.address": "Dirección",
-    "winery.phone": "Teléfono",
-    "winery.web": "Web",
-    "winery.call": "Llamar",
-    "winery.openWeb": "Abrir web",
-    "winery.navigation": "Navegación",
+    "footer.copyright": "© {year} Lúpulo — Cerveza artesanal Baja",
+    "breweries.loadError":
+      "No se pudieron cargar las cervecerías en este momento. Intenta nuevamente más tarde.",
+    "breweries.notFound": "Cervecería no encontrada.",
+    "breweries.detailError": "No se pudo cargar la información de la cervecería.",
+    "brewery.address": "Dirección",
+    "brewery.phone": "Teléfono",
+    "brewery.web": "Web",
+    "brewery.call": "Llamar",
+    "brewery.openWeb": "Abrir web",
+    "brewery.navigation": "Navegación",
     "events.empty": "No hay eventos próximos en este momento. Vuelve pronto.",
     "events.loadError": "No se pudieron cargar los eventos. Intenta más tarde.",
     "events.notFound": "Evento no encontrado.",
@@ -67,52 +67,52 @@ export const translations = {
     "promos.validity": "Vigencia: ",
   },
   en: {
-    "brand.subtitle": "Valle de Guadalupe",
+    "brand.subtitle": "Craft beer · Baja",
     "nav.home": "Home",
-    "nav.wineries": "Wineries",
+    "nav.breweries": "Breweries",
     "nav.events": "Events",
     "nav.promos": "Promos",
     "nav.map": "Map",
     "install.btn": "Install App",
-    "installSheet.title": "Install Provino",
+    "installSheet.title": "Install Lúpulo",
     "installSheet.text":
-      "Install the app for quicker access to wineries, map and promos in Valle de Guadalupe.",
+      "Install the app for quicker access to breweries, map and promos across Baja California.",
     "installSheet.primary": "Install now",
     "installSheet.close": "Don't show again",
-    "installSheet.titleIos": "Install Provino on iPhone/iPad",
+    "installSheet.titleIos": "Install Lúpulo on iPhone/iPad",
     "installSheet.textIos":
       "In Safari: tap the Share button (square with arrow) at the bottom or top, then «Add to Home Screen». The app will appear on your home screen.",
     "installSheet.primaryIos": "Got it",
-    "view.home.title": "Welcome to Provino",
+    "view.home.title": "Welcome to Lúpulo",
     "view.home.text":
-      "Explore wineries, events and promos in Valle de Guadalupe with a fast experience ready to install on your phone.",
-    "view.wineries.title": "Wineries",
-    "view.wineries.text":
-      "Explore some of the most representative wineries in Valle de Guadalupe.",
+      "Explore craft breweries, events and promos in Baja California with a fast experience ready to install on your phone.",
+    "view.breweries.title": "Breweries",
+    "view.breweries.text":
+      "Discover taprooms and brewhouses with their own style in the regional craft scene.",
     "view.events.title": "Events",
     "view.events.text":
-      "Events and experiences in Valle de Guadalupe. Tap one to see details.",
+      "Festivals, tastings and beer experiences. Tap one for details.",
     "view.promos.title": "Promos",
     "view.promos.text":
-      "Current offers and promos in Valle de Guadalupe. Tap one to see details.",
-    "view.map.title": "Interactive map",
+      "Current offers at tap rooms and breweries. Tap one for details.",
+    "view.map.title": "Brewery map",
     "view.map.text":
-      "Discover at a glance where the Valle de Guadalupe wineries are located.",
-    "view.map.ariaLabel": "Map with winery locations",
-    "back.wineries": "Back to Wineries",
+      "Find tap rooms and local production on an interactive map.",
+    "view.map.ariaLabel": "Map with brewery locations",
+    "back.breweries": "Back to Breweries",
     "back.events": "Back to Events",
     "back.promos": "Back to Promos",
-    "footer.copyright": "© {year} Provino - Valle de Guadalupe",
-    "wineries.loadError":
-      "Wineries could not be loaded at this time. Please try again later.",
-    "wineries.notFound": "Winery not found.",
-    "wineries.detailError": "Could not load winery information.",
-    "winery.address": "Address",
-    "winery.phone": "Phone",
-    "winery.web": "Web",
-    "winery.call": "Call",
-    "winery.openWeb": "Open web",
-    "winery.navigation": "Navigation",
+    "footer.copyright": "© {year} Lúpulo — Craft beer Baja",
+    "breweries.loadError":
+      "Breweries could not be loaded at this time. Please try again later.",
+    "breweries.notFound": "Brewery not found.",
+    "breweries.detailError": "Could not load brewery information.",
+    "brewery.address": "Address",
+    "brewery.phone": "Phone",
+    "brewery.web": "Web",
+    "brewery.call": "Call",
+    "brewery.openWeb": "Open web",
+    "brewery.navigation": "Navigation",
     "events.empty": "No upcoming events at this time. Check back soon.",
     "events.loadError": "Could not load events. Try again later.",
     "events.notFound": "Event not found.",

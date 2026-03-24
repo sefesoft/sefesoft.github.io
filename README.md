@@ -1,12 +1,12 @@
-# Provino App - Wine Directory for Valle de Guadalupe
+# Lúpulo — Craft beer directory (Baja California)
 
 ## Description
-Provino is a Progressive Web App (PWA) developed to provide a fast and efficient experience for tourists. It offers an interactive directory of wineries, events, and promotions, with the capability to be installed directly on the user's home screen.
+Lúpulo is a Progressive Web App (PWA) for discovering craft breweries, beer events, and tap-room promos in Baja California. It can be installed on the home screen for quick access.
 
 ## Technology Stack
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript.
-- **PWA**: Service Worker, manifest.json, Web App Manifest.
-- **Map (Planned)**: Leaflet.js for geolocated pins.
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript (ES modules).
+- **PWA**: Service Worker, Web App Manifest.
+- **Map**: Leaflet.js for brewery locations.
 
 ## How to Run the Project
 1. Open the project folder in VS Code or Cursor.
@@ -17,4 +17,4 @@ Provino is a Progressive Web App (PWA) developed to provide a fast and efficient
 - [x] Basic SPA Structure
 - [x] PWA Logic (Installation)
 - [x] Map Integration with Leaflet.js
-- [ ] Translation System (i18n)
+- [x] Translation System (i18n)

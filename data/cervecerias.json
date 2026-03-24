@@ -1,0 +1,170 @@
+[
+  {
+    "name": { "es": "Insurgente Tap Room", "en": "Insurgente Tap Room" },
+    "logo": "https://picsum.photos/seed/insurgente/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/ins1/800/500",
+      "https://picsum.photos/seed/ins2/800/500",
+      "https://picsum.photos/seed/ins3/800/500"
+    ],
+    "address": {
+      "es": "Zona Centro, Tijuana, B.C., México",
+      "en": "Downtown, Tijuana, B.C., Mexico"
+    },
+    "webpage": "https://cerveceriainsurgente.com",
+    "phone": "+52 664 123 4567",
+    "description": {
+      "es": "IPA y estilos lupulados con personalidad; tap room industrial con barriles a la vista y rotación constante de temporadas.",
+      "en": "Bold hop-forward IPAs and seasonals; industrial taproom with visible barrels and a constantly rotating tap list."
+    },
+    "lat": 32.5149,
+    "lng": -117.0382
+  },
+  {
+    "name": { "es": "Wendlandt El Sauzal", "en": "Wendlandt El Sauzal" },
+    "logo": "https://picsum.photos/seed/wendlandt/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/wl1/800/500",
+      "https://picsum.photos/seed/wl2/800/500",
+      "https://picsum.photos/seed/wl3/800/500"
+    ],
+    "address": {
+      "es": "Carretera Libre Tijuana-Ensenada Km 93, El Sauzal, Ensenada, B.C., México",
+      "en": "Free Road Tijuana-Ensenada Km 93, El Sauzal, Ensenada, B.C., Mexico"
+    },
+    "webpage": "https://wendlandt.com.mx",
+    "phone": "+52 646 234 5678",
+    "description": {
+      "es": "Cervecería costera: lagers crujientes, pale ales y experimentos con ingredientes locales del Pacífico.",
+      "en": "Coastal brewery known for crisp lagers, pale ales, and small batches with local Pacific ingredients."
+    },
+    "lat": 31.8994,
+    "lng": -116.7044
+  },
+  {
+    "name": { "es": "Aguamala Ensenada", "en": "Aguamala Ensenada" },
+    "logo": "https://picsum.photos/seed/aguamala/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/ag1/800/500",
+      "https://picsum.photos/seed/ag2/800/500",
+      "https://picsum.photos/seed/ag3/800/500"
+    ],
+    "address": {
+      "es": "Zona gastronómica, Ensenada, B.C., México",
+      "en": "Food district, Ensenada, B.C., Mexico"
+    },
+    "webpage": "https://cervezaaguamala.com",
+    "phone": "+52 646 345 6789",
+    "description": {
+      "es": "Enfoque en cervezas limpias y maridajes con mariscos; ambiente relajado tipo patio cervecero.",
+      "en": "Clean, food-friendly beers built for seafood pairings; relaxed beer-garden vibe."
+    },
+    "lat": 31.8688,
+    "lng": -116.596
+  },
+  {
+    "name": { "es": "Cucapá Mexicali", "en": "Cucapá Mexicali" },
+    "logo": "https://picsum.photos/seed/cucapa/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/cu1/800/500",
+      "https://picsum.photos/seed/cu2/800/500",
+      "https://picsum.photos/seed/cu3/800/500"
+    ],
+    "address": {
+      "es": "Col. Nueva, Mexicali, B.C., México",
+      "en": "Nueva neighborhood, Mexicali, B.C., Mexico"
+    },
+    "webpage": "https://cucapa.com",
+    "phone": "+52 686 456 7890",
+    "description": {
+      "es": "Pioneros de la escena craft en la región; clásicos americanos y ediciones limitadas con chile y fruta local.",
+      "en": "Regional craft pioneers; American classics and limited runs with local chile and fruit."
+    },
+    "lat": 32.6245,
+    "lng": -115.4523
+  },
+  {
+    "name": { "es": "Mamut Brew Co.", "en": "Mamut Brew Co." },
+    "logo": "https://picsum.photos/seed/mamut/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/mm1/800/500",
+      "https://picsum.photos/seed/mm2/800/500",
+      "https://picsum.photos/seed/mm3/800/500"
+    ],
+    "address": {
+      "es": "Zona Río, Tijuana, B.C., México",
+      "en": "Zona Río, Tijuana, B.C., Mexico"
+    },
+    "webpage": "https://mamutbrewco.com",
+    "phone": "+52 664 567 8901",
+    "description": {
+      "es": "Tap house urbano con música en vivo ocasional, stouts robustas y sours frutales en temporada.",
+      "en": "Urban tap house with occasional live music, bold stouts, and seasonal fruited sours."
+    },
+    "lat": 32.53,
+    "lng": -117.02
+  },
+  {
+    "name": { "es": "Baja Brewing Tecate", "en": "Baja Brewing Tecate" },
+    "logo": "https://picsum.photos/seed/bajabrew/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/bb1/800/500",
+      "https://picsum.photos/seed/bb2/800/500",
+      "https://picsum.photos/seed/bb3/800/500"
+    ],
+    "address": {
+      "es": "Zona industrial Tecate, B.C., México",
+      "en": "Industrial zone, Tecate, B.C., Mexico"
+    },
+    "webpage": "https://example.com/bajabrewing",
+    "phone": "+52 665 678 9012",
+    "description": {
+      "es": "Producción artesanal junto a la frontera; tours cortos, degustación de cuatro estilos y growlers para llevar.",
+      "en": "Small-batch production near the border; short tours, four-style flights, and growlers to go."
+    },
+    "lat": 32.5695,
+    "lng": -116.625
+  },
+  {
+    "name": { "es": "Cerveza Fauna", "en": "Cerveza Fauna" },
+    "logo": "https://picsum.photos/seed/fauna/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/fa1/800/500",
+      "https://picsum.photos/seed/fa2/800/500",
+      "https://picsum.photos/seed/fa3/800/500"
+    ],
+    "address": {
+      "es": "Valle de Guadalupe, Ensenada, B.C., México",
+      "en": "Valle de Guadalupe, Ensenada, B.C., Mexico"
+    },
+    "webpage": "https://faunabrewing.com",
+    "phone": "+52 646 789 0123",
+    "description": {
+      "es": "Cervecería campestre con barbacoa y vistas; ideal para una tarde de pintas y platillos para compartir.",
+      "en": "Rural brewery with barbecue and valley views; perfect for pints and shared plates."
+    },
+    "lat": 32.095,
+    "lng": -116.58
+  },
+  {
+    "name": { "es": "Relámpago Dorado", "en": "Relámpago Dorado" },
+    "logo": "https://picsum.photos/seed/relampago/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/rd1/800/500",
+      "https://picsum.photos/seed/rd2/800/500",
+      "https://picsum.photos/seed/rd3/800/500"
+    ],
+    "address": {
+      "es": "Playas de Rosarito, B.C., México",
+      "en": "Playas de Rosarito, B.C., Mexico"
+    },
+    "webpage": "https://example.com/relampagodorado",
+    "phone": "+52 661 890 1234",
+    "description": {
+      "es": "Nano cervecería frente al mar; amber ales maltosas y cold IPA en un espacio minimal tipo garaje.",
+      "en": "Oceanfront nano brewery; malty ambers and cold IPAs in a minimal garage-style space."
+    },
+    "lat": 32.3364,
+    "lng": -117.061
+  }
+]

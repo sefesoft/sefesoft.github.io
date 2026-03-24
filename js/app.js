@@ -10,8 +10,8 @@ function localizeField(field, preferredLocale) {
 
 const routes = {
   home: "view-home",
-  wineries: "view-wineries",
-  wineryDetail: "view-winery-detail",
+  breweries: "view-breweries",
+  breweryDetail: "view-brewery-detail",
   events: "view-events",
   eventDetail: "view-event-detail",
   promos: "view-promos",
@@ -21,8 +21,8 @@ const routes = {
 
 const appRoot = document.getElementById("app");
 const navButtons = Array.from(document.querySelectorAll(".nav-link"));
-let wineries = [];
-let wineriesLoaded = false;
+let breweries = [];
+let breweriesLoaded = false;
 let events = [];
 let eventsLoaded = false;
 let promos = [];
@@ -49,8 +49,8 @@ function renderRoute(route) {
 
 function setActiveNav(route) {
   const activeKey =
-    route === "wineryDetail"
-      ? "wineries"
+    route === "breweryDetail"
+      ? "breweries"
       : route === "eventDetail"
         ? "events"
         : route === "promoDetail"
@@ -71,7 +71,7 @@ function parseLocationHash() {
 function handleRouteChange() {
   const { base, rest } = parseLocationHash();
   let route = base;
-  if (base === "wineries" && rest.length > 0) route = "wineryDetail";
+  if (base === "breweries" && rest.length > 0) route = "breweryDetail";
   else if (base === "events" && rest.length > 0) route = "eventDetail";
   else if (base === "promos" && rest.length > 0) route = "promoDetail";
 
@@ -110,60 +110,60 @@ setLangToggleState();
 initGalleryLightbox();
 handleRouteChange();
 
-async function ensureWineriesLoaded() {
-  if (wineriesLoaded) return;
+async function ensureBreweriesLoaded() {
+  if (breweriesLoaded) return;
 
-  const response = await fetch("data/vinicolas.json");
+  const response = await fetch("data/cervecerias.json");
   if (!response.ok) {
-    throw new Error("No se pudieron cargar las vinícolas");
+    throw new Error("No se pudieron cargar las cervecerías");
   }
-  wineries = await response.json();
-  wineriesLoaded = true;
+  breweries = await response.json();
+  breweriesLoaded = true;
 }
 
-async function setupWineriesView() {
-  const listEl = document.getElementById("wineriesList");
+async function setupBreweriesView() {
+  const listEl = document.getElementById("breweriesList");
   if (!listEl) return;
 
   try {
-    await ensureWineriesLoaded();
+    await ensureBreweriesLoaded();
     listEl.replaceChildren();
-    wineries.forEach((winery) => {
-      if (!winery?.name) return;
-      const id = slugify(localizeField(winery.name, "es"));
+    breweries.forEach((brewery) => {
+      if (!brewery?.name) return;
+      const id = slugify(localizeField(brewery.name, "es"));
 
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "winery-card";
-      button.dataset.wineryId = id;
-      button.setAttribute("aria-label", `Abrir ${localizeField(winery.name)}`);
+      button.className = "brewery-card";
+      button.dataset.breweryId = id;
+      button.setAttribute("aria-label", `Abrir ${localizeField(brewery.name)}`);
 
       const logo = document.createElement("div");
-      logo.className = "winery-card-logo";
-      if (winery.logo) {
+      logo.className = "brewery-card-logo";
+      if (brewery.logo) {
         const logoImg = document.createElement("img");
-        logoImg.src = winery.logo;
+        logoImg.src = brewery.logo;
         logoImg.alt = "";
         logoImg.loading = "lazy";
         logo.appendChild(logoImg);
       } else {
-        logo.textContent = initialsFromName(localizeField(winery.name));
+        logo.textContent = initialsFromName(localizeField(brewery.name));
       }
 
       const name = document.createElement("div");
-      name.className = "winery-card-name";
-      name.textContent = localizeField(winery.name);
+      name.className = "brewery-card-name";
+      name.textContent = localizeField(brewery.name);
 
       const chevron = document.createElement("div");
-      chevron.className = "winery-card-chevron";
+      chevron.className = "brewery-card-chevron";
       chevron.textContent = "›";
 
       button.append(logo, name, chevron);
       button.addEventListener("click", () => {
         history.pushState(
-          { route: "wineries", wineryId: id },
+          { route: "breweries", breweryId: id },
           "",
-          `#wineries/${encodeURIComponent(id)}`
+          `#breweries/${encodeURIComponent(id)}`
         );
         handleRouteChange();
       });
@@ -171,7 +171,7 @@ async function setupWineriesView() {
       listEl.appendChild(button);
     });
   } catch (error) {
-    listEl.textContent = t("wineries.loadError");
+    listEl.textContent = t("breweries.loadError");
   }
 }
 
@@ -205,7 +205,7 @@ function escapeIcsText(str) {
 }
 
 function buildIcsForEvent(event) {
-  const uid = `${event.id}-${event.date}@provino.app`;
+  const uid = `${event.id}-${event.date}@lupulo.app`;
   const now = new Date();
   const dtstamp =
     now.getUTCFullYear() +
@@ -227,7 +227,7 @@ function buildIcsForEvent(event) {
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Provino//Eventos//ES",
+    "PRODID:-//Lupulo//Eventos//ES",
     "BEGIN:VEVENT",
     "UID:" + uid,
     "DTSTAMP:" + dtstamp,
@@ -554,66 +554,66 @@ async function setupPromoDetailView(promoIdRaw) {
   }
 }
 
-async function setupWineryDetailView(wineryIdRaw) {
-  const container = document.getElementById("wineryDetail");
-  const backBtn = document.getElementById("wineryBackBtn");
+async function setupBreweryDetailView(breweryIdRaw) {
+  const container = document.getElementById("breweryDetail");
+  const backBtn = document.getElementById("breweryBackBtn");
   if (!container) return;
 
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      history.pushState({ route: "wineries" }, "", "#wineries");
+      history.pushState({ route: "breweries" }, "", "#breweries");
       handleRouteChange();
     });
   }
 
   try {
-    await ensureWineriesLoaded();
-    const wineryId = decodeURIComponent(wineryIdRaw || "");
-    const winery = wineries.find(
-      (w) => slugify(localizeField(w?.name, "es") || "") === wineryId
+    await ensureBreweriesLoaded();
+    const breweryId = decodeURIComponent(breweryIdRaw || "");
+    const brewery = breweries.find(
+      (b) => slugify(localizeField(b?.name, "es") || "") === breweryId
     );
-    if (!winery) {
-      container.textContent = t("wineries.notFound");
+    if (!brewery) {
+      container.textContent = t("breweries.notFound");
       return;
     }
 
     container.replaceChildren();
 
     const header = document.createElement("div");
-    header.className = "winery-detail-header";
+    header.className = "brewery-detail-header";
 
     const badge = document.createElement("div");
-    badge.className = "winery-detail-badge";
-    if (winery.logo) {
+    badge.className = "brewery-detail-badge";
+    if (brewery.logo) {
       const badgeImg = document.createElement("img");
-      badgeImg.src = winery.logo;
+      badgeImg.src = brewery.logo;
       badgeImg.alt = "";
       badge.appendChild(badgeImg);
     } else {
-      badge.textContent = initialsFromName(localizeField(winery.name));
+      badge.textContent = initialsFromName(localizeField(brewery.name));
     }
 
     const titleWrap = document.createElement("div");
-    titleWrap.className = "winery-detail-titlewrap";
+    titleWrap.className = "brewery-detail-titlewrap";
 
     const title = document.createElement("h1");
-    title.className = "winery-detail-title";
-    title.textContent = localizeField(winery.name);
+    title.className = "brewery-detail-title";
+    title.textContent = localizeField(brewery.name);
 
     const desc = document.createElement("p");
-    desc.className = "winery-detail-desc";
-    desc.textContent = localizeField(winery.description) || "";
+    desc.className = "brewery-detail-desc";
+    desc.textContent = localizeField(brewery.description) || "";
 
     titleWrap.append(title, desc);
     header.append(badge, titleWrap);
 
     let galleryEl = null;
-    if (Array.isArray(winery.gallery) && winery.gallery.length > 0) {
+    if (Array.isArray(brewery.gallery) && brewery.gallery.length > 0) {
       galleryEl = document.createElement("div");
-      galleryEl.className = "winery-detail-gallery";
-      winery.gallery.slice(0, 3).forEach((src) => {
+      galleryEl.className = "brewery-detail-gallery";
+      brewery.gallery.slice(0, 3).forEach((src) => {
         const item = document.createElement("div");
-        item.className = "winery-detail-gallery-item";
+        item.className = "brewery-detail-gallery-item";
         const img = document.createElement("img");
         img.src = src;
         img.alt = "";
@@ -624,41 +624,41 @@ async function setupWineryDetailView(wineryIdRaw) {
     }
 
     const info = document.createElement("div");
-    info.className = "winery-detail-info";
+    info.className = "brewery-detail-info";
 
-    const address = infoRow(t("winery.address"), localizeField(winery.address));
-    const phone = infoRow(t("winery.phone"), winery.phone);
-    const web = infoRow(t("winery.web"), winery.webpage);
+    const address = infoRow(t("brewery.address"), localizeField(brewery.address));
+    const phone = infoRow(t("brewery.phone"), brewery.phone);
+    const web = infoRow(t("brewery.web"), brewery.webpage);
 
     info.append(address, phone, web);
 
     const actions = document.createElement("div");
-    actions.className = "winery-detail-actions";
+    actions.className = "brewery-detail-actions";
 
-    const callBtn = actionButton(t("winery.call"), winery.phone ? `tel:${normalizeTel(winery.phone)}` : "");
-    const webBtn = actionButton(t("winery.openWeb"), winery.webpage || "");
+    const callBtn = actionButton(t("brewery.call"), brewery.phone ? `tel:${normalizeTel(brewery.phone)}` : "");
+    const webBtn = actionButton(t("brewery.openWeb"), brewery.webpage || "");
     const hasCoords =
-      typeof winery.lat === "number" && typeof winery.lng === "number";
-    const navHref = hasCoords ? `geo:${winery.lat},${winery.lng}` : "";
-    const navBtn = actionButton(t("winery.navigation"), navHref);
-    navBtn.setAttribute("aria-label", t("winery.navigation"));
+      typeof brewery.lat === "number" && typeof brewery.lng === "number";
+    const navHref = hasCoords ? `geo:${brewery.lat},${brewery.lng}` : "";
+    const navBtn = actionButton(t("brewery.navigation"), navHref);
+    navBtn.setAttribute("aria-label", t("brewery.navigation"));
 
-    if (!winery.phone) callBtn.disabled = true;
-    if (!winery.webpage) webBtn.disabled = true;
+    if (!brewery.phone) callBtn.disabled = true;
+    if (!brewery.webpage) webBtn.disabled = true;
     if (!navHref) navBtn.disabled = true;
 
     actions.append(callBtn, webBtn, navBtn);
 
     if (galleryEl) {
-      const urls = winery.gallery.slice(0, 3);
-      galleryEl.querySelectorAll(".winery-detail-gallery-item").forEach((item, index) => {
+      const urls = brewery.gallery.slice(0, 3);
+      galleryEl.querySelectorAll(".brewery-detail-gallery-item").forEach((item, index) => {
         item.addEventListener("click", () => openGalleryLightbox(urls, index));
         item.style.cursor = "pointer";
       });
       container.append(header, galleryEl, info, actions);
     } else container.append(header, info, actions);
   } catch (error) {
-    container.textContent = t("wineries.detailError");
+    container.textContent = t("breweries.detailError");
   }
 }
 
@@ -756,12 +756,12 @@ function initGalleryLightbox() {
 }
 
 function enhanceRoute(route, rest = []) {
-  if (route === "wineries") {
-    setupWineriesView();
+  if (route === "breweries") {
+    setupBreweriesView();
     return;
   }
-  if (route === "wineryDetail") {
-    setupWineryDetailView(rest[0]);
+  if (route === "breweryDetail") {
+    setupBreweryDetailView(rest[0]);
     return;
   }
   if (route === "map") {
@@ -789,7 +789,7 @@ async function setupMapView() {
   const container = document.getElementById("mapView");
   if (!container || typeof L === "undefined") return;
 
-  await ensureWineriesLoaded();
+  await ensureBreweriesLoaded();
 
   if (!mapInstance || mapInstance.getContainer() !== container) {
     if (mapInstance) {
@@ -801,7 +801,7 @@ async function setupMapView() {
     mapInstance = L.map(container, {
       zoomControl: false,
       attributionControl: false,
-    }).setView([32.08, -116.57], 11);
+    }).setView([32.35, -116.85], 8);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
@@ -822,22 +822,22 @@ async function setupMapView() {
 
   const bounds = [];
 
-  wineries.forEach((winery) => {
-    if (typeof winery.lat !== "number" || typeof winery.lng !== "number") return;
+  breweries.forEach((brewery) => {
+    if (typeof brewery.lat !== "number" || typeof brewery.lng !== "number") return;
 
-    const point = [winery.lat, winery.lng];
+    const point = [brewery.lat, brewery.lng];
     bounds.push(point);
 
     const marker = L.circleMarker(point, {
       radius: 7,
-      color: "#e65a94",
+      color: "#e8a23c",
       weight: 2,
-      fillColor: "#b3325a",
-      fillOpacity: 0.85,
+      fillColor: "#b8621a",
+      fillOpacity: 0.9,
     });
 
-    const popupHtml = `<strong>${localizeField(winery.name)}</strong><br><span style="font-size:0.8rem;">${
-      localizeField(winery.address) || ""
+    const popupHtml = `<strong>${localizeField(brewery.name)}</strong><br><span style="font-size:0.8rem;">${
+      localizeField(brewery.address) || ""
     }</span>`;
 
     marker.bindPopup(popupHtml);
@@ -871,14 +871,14 @@ function normalizeTel(phone) {
 
 function infoRow(label, value) {
   const row = document.createElement("div");
-  row.className = "winery-info-row";
+  row.className = "brewery-info-row";
 
   const k = document.createElement("div");
-  k.className = "winery-info-key";
+  k.className = "brewery-info-key";
   k.textContent = label;
 
   const v = document.createElement("div");
-  v.className = "winery-info-val";
+  v.className = "brewery-info-val";
   v.textContent = value || "—";
 
   row.append(k, v);
@@ -887,7 +887,7 @@ function infoRow(label, value) {
 
 function actionButton(text, href) {
   const a = document.createElement("a");
-  a.className = "winery-action";
+  a.className = "brewery-action";
   a.textContent = text;
   a.href = href || "#";
   a.target = href?.startsWith("http") ? "_blank" : "";
@@ -901,7 +901,7 @@ function actionButton(text, href) {
 }
 
 // ——— PWA Install (show only when not installed; iOS = instructions only) ———
-const INSTALL_DISMISSED_KEY = "provino_install_dismissed";
+const INSTALL_DISMISSED_KEY = "lupulo_install_dismissed";
 let deferredPrompt = null;
 
 const installBtn = document.getElementById("installBtn");

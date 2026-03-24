@@ -1,15 +1,17 @@
 :root {
-  color-scheme: light dark;
-  --color-bg: #070308;
-  --color-surface: #110712;
-  --color-surface-soft: #1b101d;
-  --color-accent: #b3325a;
-  --color-accent-soft: #f4dde4;
-  --color-text: #f9f4f7;
-  --color-text-muted: #c7aeb8;
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
-  --radius-lg: 18px;
-  --radius-pill: 18px;
+  color-scheme: dark;
+  --color-bg: #0a0908;
+  --color-surface: #12100e;
+  --color-surface-soft: #1c1814;
+  --color-accent: #c9782d;
+  --color-accent-bright: #e8a23c;
+  --color-accent-soft: #f0d9a8;
+  --color-foam: #f5f0e8;
+  --color-text: #f5f0e8;
+  --color-text-muted: #a89888;
+  --shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --radius-lg: 14px;
+  --radius-pill: 999px;
   --transition-fast: 0.18s ease-out;
 }
 
@@ -28,8 +30,19 @@ body {
 body {
   min-height: 100vh;
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top left, #26111f 0, #050308 55%, #020109 100%);
+  font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--color-bg);
+  background-image:
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgba(201, 120, 45, 0.03) 2px,
+      rgba(201, 120, 45, 0.03) 3px
+    ),
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(184, 98, 26, 0.22), transparent 50%),
+    radial-gradient(ellipse 90% 60% at 100% 100%, rgba(60, 42, 28, 0.5), transparent 45%),
+    linear-gradient(168deg, #14100c 0%, #0a0908 42%, #080706 100%);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   display: flex;
@@ -46,14 +59,14 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(145deg, #180811, #2a0f21);
+  background: linear-gradient(155deg, #1a1510 0%, #0f0d0a 50%, #18140f 100%);
   border-radius: var(--radius-lg);
   padding: 0.9rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(232, 162, 60, 0.12);
+  border: 1px solid rgba(201, 120, 45, 0.2);
 }
 
 .brand {
@@ -98,15 +111,20 @@ body {
 }
 
 .brand-title {
-  font-weight: 650;
-  letter-spacing: 0.07em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  color: var(--color-foam);
+  text-shadow: 0 0 24px rgba(232, 162, 60, 0.35);
 }
 
 .brand-subtitle {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--color-text-muted);
+  text-transform: uppercase;
 }
 
 .install-btn {
@@ -114,21 +132,21 @@ body {
   border: none;
   padding: 0.4rem 0.85rem;
   font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--color-accent);
-  color: #fff;
+  background: linear-gradient(145deg, #b8621a, #e8a23c);
+  color: #1a0f08;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(179, 50, 90, 0.55);
+  box-shadow: 0 8px 20px rgba(184, 98, 26, 0.45);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-    background var(--transition-fast);
+    filter var(--transition-fast);
 }
 
 .install-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 26px rgba(179, 50, 90, 0.75);
-  background: #c93c66;
+  box-shadow: 0 12px 28px rgba(232, 162, 60, 0.4);
+  filter: brightness(1.06);
 }
 
 .install-btn:active {
@@ -139,20 +157,21 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem;
-  background: rgba(4, 2, 7, 0.9);
-  border-radius: 12px;
-  padding: 0.2rem;
+  gap: 0.35rem;
+  background: rgba(12, 10, 8, 0.92);
+  border-radius: var(--radius-lg);
+  padding: 0.35rem;
   box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 120, 45, 0.12);
 }
 
 .nav-link {
   border-radius: 10px;
   border: none;
-  padding: 0.55rem 1.5rem;
-  font-size: 0.76rem;
-  font-weight: 500;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
@@ -161,11 +180,11 @@ body {
 }
 
 .nav-link.is-active {
-  background: linear-gradient(145deg, #b3325a, #e65a94);
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(214, 92, 144, 0.6);
+  background: linear-gradient(145deg, #8a4815, #c9782d 55%, #e8a23c);
+  color: #1a0f08;
+  box-shadow: 0 6px 16px rgba(184, 98, 26, 0.45);
   transform: translateY(-1px);
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .nav-link:active {
@@ -175,11 +194,11 @@ body {
 
 .app-main {
   margin-top: 0.6rem;
-  background: rgba(9, 3, 14, 0.95);
-  border-radius: 22px;
-  padding: 1rem;
+  background: linear-gradient(180deg, rgba(28, 24, 20, 0.97) 0%, rgba(15, 13, 11, 0.98) 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem;
   box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 120, 45, 0.15);
   min-height: 50vh;
 }
 
@@ -190,8 +209,11 @@ body {
 }
 
 .view-title {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.02em;
+  color: var(--color-foam);
 }
 
 .view-text {
@@ -208,70 +230,75 @@ body {
   color: var(--color-text-muted);
 }
 
-.wineries-list {
+.breweries-list {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
   margin-top: 0.75rem;
 }
 
-.winery-card {
+.brewery-card {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(201, 120, 45, 0.18);
+  border-left: 4px solid var(--color-accent);
+  background: linear-gradient(95deg, rgba(40, 32, 24, 0.55) 0%, rgba(22, 18, 14, 0.75) 100%);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
   display: grid;
-  grid-template-columns: 46px 1fr 18px;
+  grid-template-columns: 48px 1fr 18px;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.75rem;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast),
     box-shadow var(--transition-fast), border-color var(--transition-fast);
   text-align: left;
 }
 
-.winery-card:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+.brewery-card:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(95deg, rgba(55, 42, 30, 0.65) 0%, rgba(26, 22, 18, 0.85) 100%);
+  border-color: rgba(232, 162, 60, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 162, 60, 0.08);
 }
 
-.winery-card:active {
+.brewery-card:active {
   transform: translateY(0);
   box-shadow: none;
 }
 
-.winery-card-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
+.brewery-card-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
-  font-weight: 650;
-  letter-spacing: 0.06em;
-  color: #fff;
-  background: linear-gradient(145deg, #b3325a, #e65a94);
-  box-shadow: 0 10px 20px rgba(179, 50, 90, 0.5);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: #1a0f08;
+  background: linear-gradient(160deg, #f0d9a8, #e8a23c 45%, #b8621a);
+  box-shadow:
+    0 0 0 2px rgba(26, 15, 8, 0.85),
+    0 0 0 4px rgba(201, 120, 45, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.45);
   overflow: hidden;
   flex-shrink: 0;
 }
 
-.winery-card-logo img {
+.brewery-card-logo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.winery-card-name {
+.brewery-card-name {
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 
-.winery-card-chevron {
+.brewery-card-chevron {
   font-size: 1.4rem;
   line-height: 1;
   color: rgba(255, 255, 255, 0.5);
@@ -295,13 +322,13 @@ body {
   transform: translateY(-1px);
 }
 
-.winery-detail {
+.brewery-detail {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 }
 
-.winery-detail-gallery {
+.brewery-detail-gallery {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.5rem;
@@ -311,7 +338,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-.winery-detail-gallery-item {
+.brewery-detail-gallery-item {
   flex: 0 0 min(32%, 140px);
   aspect-ratio: 4 / 3;
   border-radius: 12px;
@@ -320,61 +347,66 @@ body {
   scroll-snap-align: start;
 }
 
-.winery-detail-gallery-item img {
+.brewery-detail-gallery-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.winery-detail-header {
+.brewery-detail-header {
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: 0.8rem;
   align-items: start;
 }
 
-.winery-detail-badge {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+.brewery-detail-badge {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  background: linear-gradient(145deg, #b3325a, #e65a94);
-  box-shadow: 0 12px 26px rgba(179, 50, 90, 0.55);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: #1a0f08;
+  background: linear-gradient(160deg, #f0d9a8, #e8a23c 45%, #b8621a);
+  box-shadow:
+    0 0 0 2px rgba(26, 15, 8, 0.9),
+    0 0 0 5px rgba(201, 120, 45, 0.4),
+    0 14px 28px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   flex-shrink: 0;
 }
 
-.winery-detail-badge img {
+.brewery-detail-badge img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.winery-detail-title {
+.brewery-detail-title {
   margin: 0;
   font-size: 1.35rem;
 }
 
-.winery-detail-desc {
+.brewery-detail-desc {
   margin: 0.25rem 0 0;
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--color-text-muted);
 }
 
-.winery-detail-info {
+.brewery-detail-info {
   border: 1px solid rgba(255, 255, 255, 0.06);
   background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
   overflow: hidden;
 }
 
-.winery-info-row {
+.brewery-info-row {
   display: grid;
   grid-template-columns: 90px 1fr;
   gap: 0.75rem;
@@ -382,31 +414,31 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.winery-info-row:first-child {
+.brewery-info-row:first-child {
   border-top: none;
 }
 
-.winery-info-key {
+.brewery-info-key {
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
-.winery-info-val {
+.brewery-info-val {
   font-size: 0.86rem;
   color: var(--color-text);
   line-height: 1.5;
   word-break: break-word;
 }
 
-.winery-detail-actions {
+.brewery-detail-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.55rem;
 }
 
-.winery-action {
+.brewery-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -420,7 +452,7 @@ body {
   color: var(--color-text);
 }
 
-.winery-action:hover {
+.brewery-action:hover {
   background: rgba(255, 255, 255, 0.07);
 }
 
@@ -433,9 +465,9 @@ body {
 
 .event-card {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
+  border: 1px solid rgba(201, 120, 45, 0.14);
+  background: rgba(24, 20, 16, 0.6);
+  border-radius: 12px;
   overflow: hidden;
   padding: 0;
   display: grid;
@@ -555,9 +587,9 @@ body {
 
 .promo-card {
   width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
+  border: 1px solid rgba(201, 120, 45, 0.14);
+  background: rgba(24, 20, 16, 0.6);
+  border-radius: 12px;
   overflow: hidden;
   padding: 0;
   display: grid;
@@ -716,10 +748,10 @@ body {
 .install-sheet-inner {
   width: 100%;
   max-width: 520px;
-  background: linear-gradient(145deg, #1b0a15, #2b1023);
-  border-radius: 18px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(165deg, #1c1610, #0f0c09);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(201, 120, 45, 0.25);
   padding: 0.9rem 1rem;
   transform: translateY(110%);
   opacity: 0;
@@ -763,9 +795,10 @@ body {
 }
 
 .install-sheet-primary {
-  background: var(--color-accent);
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(179, 50, 90, 0.55);
+  background: linear-gradient(145deg, #b8621a, #e8a23c);
+  color: #1a0f08;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(184, 98, 26, 0.4);
 }
 
 .install-sheet-secondary {
@@ -777,14 +810,14 @@ body {
   margin-top: 0.6rem;
   width: 100%;
   height: 320px;
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(201, 120, 45, 0.2);
 }
 
 .leaflet-container {
-  background: #06030a;
+  background: #0c0a08;
 }
 
 @media (min-width: 768px) {

@@ -1,41 +1,41 @@
 [
   {
-    "id": "cata-dos-por-uno",
+    "id": "vuelo-cata-2x1",
     "name": {
-      "es": "Cata 2x1 en fin de semana",
-      "en": "2-for-1 tasting on weekends"
+      "es": "Vuelo de cata 2×1",
+      "en": "2-for-1 tasting flight"
     },
     "description": {
-      "es": "Disfruta de una cata de vinos para dos al precio de una los sábados y domingos. Válido en bodegas participantes del Valle. Presenta este cupón en taquilla.",
-      "en": "Enjoy a wine tasting for two at the price of one on Saturdays and Sundays. Valid at participating Valle wineries. Present this coupon at the counter."
+      "es": "Cuatro cervezas de barril para dos personas al precio de un vuelo los viernes. Válido en tap rooms participantes de Baja California. Muestra este cupón en barra.",
+      "en": "Four draft tasters for two at the price of one flight on Fridays. Valid at participating Baja tap rooms. Show this coupon at the bar."
     },
     "startDate": "2026-03-01",
     "endDate": "2026-06-30",
-    "image": "https://picsum.photos/seed/promo-cata/800/400"
+    "image": "https://picsum.photos/seed/promo-flight/800/400"
   },
   {
-    "id": "maridaje-nocturno",
+    "id": "growler-lunes",
     "name": {
-      "es": "Maridaje bajo las estrellas",
-      "en": "Dinner under the stars"
+      "es": "Lunes de growler",
+      "en": "Growler Monday"
     },
     "description": {
-      "es": "Experiencia de cena maridada al aire libre con vista al viñedo. Incluye tres tiempos y tres copas de vino seleccionado. 20% de descuento reservando con 48 h de anticipación.",
-      "en": "Outdoor wine-paired dinner experience with vineyard views. Includes three courses and three glasses of selected wine. 20% off when booking 48 hours in advance."
+      "es": "Rellena tu growler con cualquier estilo de temporada con 25% de descuento los lunes. Aplica en cervecerías adherentes; no acumulable con otras promos.",
+      "en": "Refill your growler with any seasonal style at 25% off on Mondays. Participating breweries only; not combinable with other offers."
     },
     "startDate": "2026-04-01",
     "endDate": "2026-09-15",
-    "image": "https://picsum.photos/seed/promo-maridaje/800/400"
+    "image": "https://picsum.photos/seed/promo-growler/800/400"
   },
   {
-    "id": "tour-vinedos-descuento",
+    "id": "tour-fabrica-descuento",
     "name": {
-      "es": "Tour viñedos con descuento",
-      "en": "Vineyard tour discount"
+      "es": "Tour por fábrica con pinta incluida",
+      "en": "Brewery tour + pint"
     },
     "description": {
-      "es": "Recorrido guiado por viñedos del Valle con degustación incluida. Precio especial por tiempo limitado. Incluye transporte desde punto de encuentro en Ensenada.",
-      "en": "Guided tour of Valle vineyards with tasting included. Limited-time special price. Includes transport from meeting point in Ensenada."
+      "es": "Recorrido por sala de elaboración y fermentación con guía cervecero, más una pinta al final. Precio promocional por tiempo limitado.",
+      "en": "Guided brewhouse and cellar tour with a brewer, plus a pint at the end. Limited-time promotional pricing."
     },
     "startDate": "2026-01-15",
     "endDate": "2026-05-31",

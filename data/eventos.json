@@ -1,54 +1,54 @@
 [
   {
-    "id": "aniversario-bodega-cielo",
+    "id": "beer-week-baja",
     "name": {
-      "es": "Aniversario de Bodega Cielo",
-      "en": "El Cielo Winery Anniversary"
+      "es": "Beer Week Baja",
+      "en": "Baja Beer Week"
     },
-    "date": "2026-06-15",
+    "date": "2026-06-12",
     "description": {
-      "es": "Celebración del aniversario de El Cielo con degustaciones especiales, música en vivo y recorridos por viñedos. Incluye maridaje y acceso al jardín.",
-      "en": "El Cielo anniversary celebration with special tastings, live music and vineyard tours. Includes food pairing and garden access."
+      "es": "Una semana de tap takeovers, catas guiadas y colaboraciones entre cervecerías de Tijuana, Ensenada y Mexicali. Pases por día o abono completo.",
+      "en": "A week of tap takeovers, guided tastings, and collab brews across Tijuana, Ensenada, and Mexicali. Day passes or full-week wristbands."
     },
-    "image": "https://picsum.photos/seed/cielo/800/400"
+    "image": "https://picsum.photos/seed/beerweek/800/400"
   },
   {
-    "id": "concurso-paellas",
+    "id": "oktoberfest-ensenada",
     "name": {
-      "es": "Concurso de paellas",
-      "en": "Paella contest"
+      "es": "Oktoberfest en el malecón",
+      "en": "Waterfront Oktoberfest"
     },
-    "date": "2026-08-22",
+    "date": "2026-09-20",
     "description": {
-      "es": "Concurso gastronómico de paellas en el Valle de Guadalupe. Participan restaurantes y bodegas con maridaje de vinos locales. Entrada con degustación incluida.",
-      "en": "Paella cooking contest in Valle de Guadalupe. Restaurants and wineries participate with local wine pairings. Admission includes tasting."
+      "es": "Jardín cervecero al aire libre con marzen, pretzels, música tradicional y concursos de levantamiento de jarra. Entrada familiar.",
+      "en": "Outdoor beer garden with Märzen, pretzels, brass bands, and stein-holding contests. Family-friendly entry."
     },
-    "image": "https://picsum.photos/seed/paella/800/400"
+    "image": "https://picsum.photos/seed/oktober/800/400"
   },
   {
-    "id": "muestra-vino",
+    "id": "festival-lupulo",
     "name": {
-      "es": "Muestra del vino",
-      "en": "Wine showcase"
+      "es": "Festival del lúpulo",
+      "en": "Hop Harvest Festival"
     },
-    "date": "2026-09-12",
+    "date": "2026-08-08",
     "description": {
-      "es": "Muestra anual de vinos del Valle de Guadalupe. Más de 30 bodegas participan con sus etiquetas. Catas guiadas y venta directa.",
-      "en": "Annual Valle de Guadalupe wine showcase. Over 30 wineries with their labels. Guided tastings and direct sales."
+      "es": "Celebración anual del lúpulo fresco: IPAs wet-hop, charlas con cerveceros y mercado de comida street food.",
+      "en": "Annual fresh-hop celebration: wet-hop IPAs, brewer talks, and a street-food market."
     },
-    "image": "https://picsum.photos/seed/muestra/800/400"
+    "image": "https://picsum.photos/seed/hopfest/800/400"
   },
   {
-    "id": "cena-maridaje-adobe",
+    "id": "cena-maridaje-stout",
     "name": {
-      "es": "Cena Maridaje en Adobe Guadalupe",
-      "en": "Wine pairing dinner at Adobe Guadalupe"
+      "es": "Cena maridaje: stouts y postres",
+      "en": "Stout & dessert pairing dinner"
     },
-    "date": "2026-11-08",
+    "date": "2026-11-14",
     "description": {
-      "es": "Cena de cinco tiempos maridada con los vinos de Adobe Guadalupe. Noche bajo las estrellas en la terraza de la hacienda. Reservación previa.",
-      "en": "Five-course dinner paired with Adobe Guadalupe wines. Evening under the stars on the hacienda terrace. Advance reservation required."
+      "es": "Cinco tiempos con stouts imperiales, cafés de especialidad y chocolates locales. Cupos limitados, reserva con anticipación.",
+      "en": "Five courses with imperial stouts, specialty coffee, and local chocolate. Limited seats; advance booking."
     },
-    "image": "https://picsum.photos/seed/adobe/800/400"
+    "image": "https://picsum.photos/seed/stoutdinner/800/400"
   }
 ]

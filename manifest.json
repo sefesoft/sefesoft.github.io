@@ -1,12 +1,12 @@
 {
-  "name": "Provino - Valle de Guadalupe",
-  "short_name": "Provino",
-  "description": "Directorio PWA de bodegas, eventos y promociones en el Valle de Guadalupe.",
+  "name": "Lúpulo — Cerveza artesanal Baja",
+  "short_name": "Lúpulo",
+  "description": "Directorio PWA de cervecerías artesanales, eventos y promociones en Baja California.",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#070308",
-  "theme_color": "#7b1f3a",
+  "background_color": "#0a0908",
+  "theme_color": "#b8621a",
   "orientation": "portrait",
   "icons": [
     {
