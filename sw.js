@@ -1,10 +1,12 @@
-const CACHE_NAME = "lupulo-shell-v1";
+const CACHE_NAME = "lupulo-shell-v3";
 const OFFLINE_URLS = [
   "/",
   "/index.html",
   "/css/styles.css",
   "/js/app.js",
   "/js/i18n.js",
+  "/js/admin.js",
+  "/js/admin-config.js",
   "/manifest.json",
   "/data/cervecerias.json",
   "/data/eventos.json",

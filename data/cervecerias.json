@@ -166,5 +166,26 @@
     },
     "lat": 32.3364,
     "lng": -117.061
+  },
+  {
+    "name": { "es": "Amante Brewing Company", "en": "Amante Brewing Company" },
+    "logo": "https://picsum.photos/seed/amante/200/200",
+    "gallery": [
+      "https://picsum.photos/seed/amante1/800/500",
+      "https://picsum.photos/seed/amante2/800/500",
+      "https://picsum.photos/seed/amante3/800/500"
+    ],
+    "address": {
+      "es": "Av. José María Larroque 1700 esq. Calle I, Mexicali, B.C., México",
+      "en": "1700 José María Larroque Ave. at Calle I, Mexicali, B.C., Mexico"
+    },
+    "webpage": "https://amantebrew.com",
+    "phone": "+52 686 554 4060",
+    "description": {
+      "es": "Cervecería artesanal en Mexicali con tap room; producción propia y rotación de estilos. Marca pionera en permisos de elaboración y degustación en la ciudad.",
+      "en": "Craft brewery in Mexicali with a taproom; house beers and rotating styles. Among the first permitted production-and-tasting operations in the city."
+    },
+    "lat": 32.6311,
+    "lng": -115.4386
   }
 ]

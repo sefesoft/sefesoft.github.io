@@ -1,4 +1,13 @@
 import { t, applyTranslations, setLangToggleState, setLocale, getLocale } from "./i18n.js";
+import {
+  mountAdminView,
+  getStoredBreweriesOverride,
+  setStoredBreweriesOverride,
+  getStoredEventsOverride,
+  setStoredEventsOverride,
+  getStoredPromosOverride,
+  setStoredPromosOverride,
+} from "./admin.js";
 
 /** Resolve a localized field (object with es/en) or plain string; fallback to Spanish if locale missing. */
 function localizeField(field, preferredLocale) {
@@ -17,6 +26,7 @@ const routes = {
   promos: "view-promos",
   promoDetail: "view-promo-detail",
   map: "view-map",
+  admin: "view-admin",
 };
 
 const appRoot = document.getElementById("app");
@@ -55,9 +65,11 @@ function setActiveNav(route) {
         ? "events"
         : route === "promoDetail"
           ? "promos"
-          : route;
+          : route === "admin"
+            ? ""
+            : route;
   navButtons.forEach((btn) => {
-    const isActive = btn.dataset.route === activeKey;
+    const isActive = activeKey !== "" && btn.dataset.route === activeKey;
     btn.classList.toggle("is-active", isActive);
   });
 }
@@ -113,12 +125,65 @@ handleRouteChange();
 async function ensureBreweriesLoaded() {
   if (breweriesLoaded) return;
 
+  const stored = getStoredBreweriesOverride();
+  if (stored) {
+    breweries = stored;
+    breweriesLoaded = true;
+    return;
+  }
+
   const response = await fetch("data/cervecerias.json");
   if (!response.ok) {
     throw new Error("No se pudieron cargar las cervecerías");
   }
   breweries = await response.json();
   breweriesLoaded = true;
+}
+
+function persistAdminBreweries(next) {
+  setStoredBreweriesOverride(next);
+  breweries = next;
+  breweriesLoaded = true;
+}
+
+function persistAdminEvents(next) {
+  setStoredEventsOverride(next);
+  events = next;
+  eventsLoaded = true;
+}
+
+function persistAdminPromos(next) {
+  setStoredPromosOverride(next);
+  promos = next;
+  promosLoaded = true;
+}
+
+function setupAdminView() {
+  const root = document.getElementById("adminRoot");
+  if (!root) return;
+  mountAdminView(root, {
+    loadBreweriesForAdmin: async () => {
+      await ensureBreweriesLoaded();
+      return JSON.parse(JSON.stringify(breweries));
+    },
+    persistBreweries: (list) => {
+      persistAdminBreweries(list);
+    },
+    loadEventsForAdmin: async () => {
+      await ensureEventsLoaded();
+      return JSON.parse(JSON.stringify(events));
+    },
+    persistEvents: (list) => {
+      persistAdminEvents(list);
+    },
+    loadPromosForAdmin: async () => {
+      await ensurePromosLoaded();
+      return JSON.parse(JSON.stringify(promos));
+    },
+    persistPromos: (list) => {
+      persistAdminPromos(list);
+    },
+  });
 }
 
 async function setupBreweriesView() {
@@ -273,6 +338,14 @@ function getGoogleCalendarUrl(event) {
 
 async function ensureEventsLoaded() {
   if (eventsLoaded) return;
+
+  const stored = getStoredEventsOverride();
+  if (stored) {
+    events = stored;
+    eventsLoaded = true;
+    return;
+  }
+
   const response = await fetch("data/eventos.json");
   if (!response.ok) throw new Error("No se pudieron cargar los eventos");
   events = await response.json();
@@ -434,6 +507,14 @@ function formatPromoDateRange(startStr, endStr) {
 
 async function ensurePromosLoaded() {
   if (promosLoaded) return;
+
+  const stored = getStoredPromosOverride();
+  if (stored) {
+    promos = stored;
+    promosLoaded = true;
+    return;
+  }
+
   const response = await fetch("data/promos.json");
   if (!response.ok) throw new Error("No se pudieron cargar las promociones");
   promos = await response.json();
@@ -554,6 +635,54 @@ async function setupPromoDetailView(promoIdRaw) {
   }
 }
 
+/** iOS / iPadOS (including iPad with desktop UA). */
+function isMapsIOS() {
+  const ua = navigator.userAgent || "";
+  if (/iPhone|iPad|iPod/i.test(ua)) return true;
+  return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+}
+
+function isMapsAndroid() {
+  return /Android/i.test(navigator.userAgent || "");
+}
+
+/**
+ * Apple Maps on iPhone/iPad, Google Maps (app or web) on Android, Google Maps in a new browser tab on desktop.
+ */
+function openBreweryInMaps(lat, lng, placeName) {
+  const latNum = Number(lat);
+  const lngNum = Number(lng);
+  if (Number.isNaN(latNum) || Number.isNaN(lngNum)) return;
+
+  const name = (placeName || "").trim();
+
+  if (isMapsIOS()) {
+    const params = new URLSearchParams();
+    params.set("daddr", `${latNum},${lngNum}`);
+    if (name) params.set("q", name);
+    window.location.href = `https://maps.apple.com/?${params.toString()}`;
+    return;
+  }
+
+  if (isMapsAndroid()) {
+    const dest = encodeURIComponent(`${latNum},${lngNum}`);
+    window.location.assign(
+      `https://www.google.com/maps/dir/?api=1&destination=${dest}`
+    );
+    return;
+  }
+
+  const query =
+    name.length > 0
+      ? encodeURIComponent(`${name} ${latNum},${lngNum}`)
+      : encodeURIComponent(`${latNum},${lngNum}`);
+  window.open(
+    `https://www.google.com/maps/search/?api=1&query=${query}`,
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
 async function setupBreweryDetailView(breweryIdRaw) {
   const container = document.getElementById("breweryDetail");
   const backBtn = document.getElementById("breweryBackBtn");
@@ -639,13 +768,22 @@ async function setupBreweryDetailView(breweryIdRaw) {
     const webBtn = actionButton(t("brewery.openWeb"), brewery.webpage || "");
     const hasCoords =
       typeof brewery.lat === "number" && typeof brewery.lng === "number";
-    const navHref = hasCoords ? `geo:${brewery.lat},${brewery.lng}` : "";
-    const navBtn = actionButton(t("brewery.navigation"), navHref);
+    const navBtn = document.createElement("button");
+    navBtn.type = "button";
+    navBtn.className = "brewery-action";
+    navBtn.textContent = t("brewery.navigation");
     navBtn.setAttribute("aria-label", t("brewery.navigation"));
+    navBtn.addEventListener("click", () => {
+      openBreweryInMaps(
+        brewery.lat,
+        brewery.lng,
+        localizeField(brewery.name)
+      );
+    });
 
     if (!brewery.phone) callBtn.disabled = true;
     if (!brewery.webpage) webBtn.disabled = true;
-    if (!navHref) navBtn.disabled = true;
+    if (!hasCoords) navBtn.disabled = true;
 
     actions.append(callBtn, webBtn, navBtn);
 
@@ -782,6 +920,10 @@ function enhanceRoute(route, rest = []) {
   }
   if (route === "promoDetail") {
     setupPromoDetailView(rest[0]);
+    return;
+  }
+  if (route === "admin") {
+    setupAdminView();
   }
 }
 
