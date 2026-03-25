@@ -1,4 +1,4 @@
-const CACHE_NAME = "lupulo-shell-v3";
+const CACHE_NAME = "lupulo-shell-v5";
 const OFFLINE_URLS = [
   "/",
   "/index.html",

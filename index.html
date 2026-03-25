@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600&family=Outfit:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href="assets/icons/icon-192.png" />
@@ -69,7 +69,8 @@
       </div>
 
       <template id="view-home">
-        <section class="view">
+        <section class="view view--home">
+          <div class="view-hero-mark" aria-hidden="true"></div>
           <h1 class="view-title" data-i18n="view.home.title">Bienvenido a Lúpulo</h1>
           <p class="view-text" data-i18n="view.home.text">
             Explora cervecerías artesanales, eventos y promociones en Baja California desde una experiencia rápida y lista para instalar en tu teléfono.
@@ -83,7 +84,7 @@
           <p class="view-text" data-i18n="view.breweries.text">
             Descubre tap rooms y fábricas con estilo propio en la escena craft de la región.
           </p>
-          <div id="breweriesList" class="breweries-list"></div>
+          <div id="breweriesList" class="breweries-list breweries-grid" role="list"></div>
         </section>
       </template>
 

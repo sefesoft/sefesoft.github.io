@@ -200,6 +200,7 @@ async function setupBreweriesView() {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "brewery-card";
+      button.setAttribute("role", "listitem");
       button.dataset.breweryId = id;
       button.setAttribute("aria-label", `Abrir ${localizeField(brewery.name)}`);
 
@@ -219,11 +220,7 @@ async function setupBreweriesView() {
       name.className = "brewery-card-name";
       name.textContent = localizeField(brewery.name);
 
-      const chevron = document.createElement("div");
-      chevron.className = "brewery-card-chevron";
-      chevron.textContent = "›";
-
-      button.append(logo, name, chevron);
+      button.append(logo, name);
       button.addEventListener("click", () => {
         history.pushState(
           { route: "breweries", breweryId: id },

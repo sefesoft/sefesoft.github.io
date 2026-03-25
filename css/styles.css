@@ -1,16 +1,23 @@
 :root {
   color-scheme: dark;
-  --color-bg: #0a0908;
-  --color-surface: #12100e;
-  --color-surface-soft: #1c1814;
+  --font-display: "Fraunces", "Georgia", "Times New Roman", serif;
+  --font-ui: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-bg: #080706;
+  --color-surface: #12100c;
+  --color-surface-soft: #1c1612;
+  --color-stout: #0d0806;
+  --color-malt: #2a1e18;
   --color-accent: #c9782d;
   --color-accent-bright: #e8a23c;
   --color-accent-soft: #f0d9a8;
-  --color-foam: #f5f0e8;
-  --color-text: #f5f0e8;
+  --color-copper-deep: #8b4a1a;
+  --color-brass: #c9a06c;
+  --color-hop: #6d8f5c;
+  --color-foam: #faf6ef;
+  --color-text: #f2ebe3;
   --color-text-muted: #a89888;
   --shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.55);
-  --radius-lg: 14px;
+  --radius-lg: 16px;
   --radius-pill: 999px;
   --transition-fast: 0.18s ease-out;
 }
@@ -30,19 +37,21 @@ body {
 body {
   min-height: 100vh;
   margin: 0;
-  font-family: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   background-color: var(--color-bg);
   background-image:
+    radial-gradient(ellipse 100% 50% at 50% 120%, rgba(109, 143, 92, 0.07), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 0% 0%, rgba(184, 98, 26, 0.14), transparent 50%),
     repeating-linear-gradient(
-      -12deg,
+      105deg,
       transparent,
-      transparent 2px,
-      rgba(201, 120, 45, 0.03) 2px,
-      rgba(201, 120, 45, 0.03) 3px
+      transparent 3px,
+      rgba(201, 120, 45, 0.025) 3px,
+      rgba(201, 120, 45, 0.025) 4px
     ),
-    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(184, 98, 26, 0.22), transparent 50%),
-    radial-gradient(ellipse 90% 60% at 100% 100%, rgba(60, 42, 28, 0.5), transparent 45%),
-    linear-gradient(168deg, #14100c 0%, #0a0908 42%, #080706 100%);
+    radial-gradient(ellipse 120% 70% at 50% -15%, rgba(232, 162, 60, 0.18), transparent 52%),
+    radial-gradient(ellipse 85% 55% at 100% 100%, rgba(45, 32, 24, 0.55), transparent 48%),
+    linear-gradient(172deg, #16120e 0%, var(--color-bg) 38%, #060504 100%);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   display: flex;
@@ -55,27 +64,66 @@ body {
   max-width: 520px;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .app-header {
-  background: linear-gradient(155deg, #1a1510 0%, #0f0d0a 50%, #18140f 100%);
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 42%),
+    linear-gradient(155deg, #1f1812 0%, #120e0a 48%, #1a1410 100%);
   border-radius: var(--radius-lg);
-  padding: 0.9rem 1rem;
+  padding: 0.95rem 1.05rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(232, 162, 60, 0.12);
-  border: 1px solid rgba(201, 120, 45, 0.2);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 1px 0 rgba(232, 162, 60, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(201, 160, 100, 0.28);
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 120% at 10% -20%, rgba(109, 143, 92, 0.08), transparent 50%);
+  pointer-events: none;
+}
+
+.app-header::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 160, 100, 0.35) 15%,
+    rgba(232, 162, 60, 0.65) 50%,
+    rgba(201, 160, 100, 0.35) 85%,
+    transparent
+  );
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .brand {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: 0.15rem;
 }
 
 .header-actions {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -111,34 +159,40 @@ body {
 }
 
 .brand-title {
+  font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: 0.12em;
+  font-optical-sizing: auto;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--color-foam);
-  text-shadow: 0 0 24px rgba(232, 162, 60, 0.35);
+  text-shadow:
+    0 0 28px rgba(232, 162, 60, 0.4),
+    0 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .brand-subtitle {
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--color-text-muted);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(240, 217, 168, 0.72);
   text-transform: uppercase;
 }
 
 .install-btn {
   border-radius: var(--radius-pill);
-  border: none;
+  border: 1px solid rgba(255, 220, 170, 0.25);
   padding: 0.4rem 0.85rem;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: linear-gradient(145deg, #b8621a, #e8a23c);
+  background: linear-gradient(160deg, #d4a052 0%, #b8621a 45%, #8b4a12 100%);
   color: #1a0f08;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(184, 98, 26, 0.45);
+  box-shadow:
+    0 6px 18px rgba(184, 98, 26, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast),
     filter var(--transition-fast);
 }
@@ -157,34 +211,43 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.35rem;
-  background: rgba(12, 10, 8, 0.92);
+  gap: 0.4rem;
+  background: linear-gradient(180deg, rgba(30, 24, 18, 0.98) 0%, rgba(12, 10, 8, 0.96) 100%);
   border-radius: var(--radius-lg);
-  padding: 0.35rem;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(201, 120, 45, 0.12);
+  padding: 0.4rem;
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 160, 100, 0.2);
 }
 
 .nav-link {
-  border-radius: 10px;
-  border: none;
-  padding: 0.5rem 1.1rem;
-  font-size: 0.74rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
   transition: background var(--transition-fast), color var(--transition-fast),
-    transform var(--transition-fast), box-shadow var(--transition-fast);
+    transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.nav-link:hover:not(.is-active) {
+  color: var(--color-accent-soft);
+  background: rgba(201, 120, 45, 0.08);
+  border-color: rgba(201, 120, 45, 0.12);
 }
 
 .nav-link.is-active {
-  background: linear-gradient(145deg, #8a4815, #c9782d 55%, #e8a23c);
+  background: linear-gradient(165deg, #a05618 0%, #c9782d 42%, #e8a23c 100%);
   color: #1a0f08;
-  box-shadow: 0 6px 16px rgba(184, 98, 26, 0.45);
+  border-color: rgba(255, 220, 180, 0.35);
+  box-shadow:
+    0 6px 18px rgba(184, 98, 26, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transform: translateY(-1px);
-  border-radius: 10px;
 }
 
 .nav-link:active {
@@ -193,33 +256,100 @@ body {
 }
 
 .app-main {
-  margin-top: 0.6rem;
-  background: linear-gradient(180deg, rgba(28, 24, 20, 0.97) 0%, rgba(15, 13, 11, 0.98) 100%);
+  position: relative;
+  margin-top: 0.5rem;
+  background:
+    linear-gradient(135deg, rgba(109, 143, 92, 0.04) 0%, transparent 38%),
+    linear-gradient(180deg, rgba(32, 26, 20, 0.99) 0%, rgba(14, 12, 10, 0.99) 100%);
   border-radius: var(--radius-lg);
-  padding: 1.1rem;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(201, 120, 45, 0.15);
+  padding: 1.2rem 1.15rem;
+  box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 160, 100, 0.18);
   min-height: 50vh;
+  overflow: hidden;
+}
+
+.app-main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-hop) 0%,
+    var(--color-copper-deep) 35%,
+    var(--color-accent-bright) 50%,
+    var(--color-copper-deep) 65%,
+    var(--color-hop) 100%
+  );
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .view {
+  position: relative;
+  z-index: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.65rem;
+}
+
+.view--home {
+  align-items: stretch;
+}
+
+.view-hero-mark {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 0.15rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.35) 0%, transparent 55%),
+    conic-gradient(
+      from 200deg at 50% 50%,
+      #5a7a4a 0deg,
+      #7a9a62 80deg,
+      #6d8f5c 160deg,
+      #4a6238 280deg,
+      #5a7a4a 360deg
+    );
+  box-shadow:
+    0 0 0 3px rgba(26, 15, 8, 0.9),
+    0 0 0 5px rgba(201, 120, 45, 0.35),
+    0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.view--home .view-title {
+  text-align: center;
+}
+
+.view--home .view-text {
+  text-align: center;
+  max-width: 26rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .view-title {
-  font-size: 1.45rem;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 1.55rem;
   font-weight: 700;
+  font-style: italic;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
   color: var(--color-foam);
+  text-shadow: 0 2px 20px rgba(184, 98, 26, 0.15);
 }
 
 .view-text {
   margin: 0;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--color-text-muted);
 }
 
@@ -246,57 +376,109 @@ body {
   color: var(--color-accent-bright);
 }
 
-.breweries-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-top: 0.75rem;
+.app-footer small::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 3px;
+  margin: 0 auto 0.5rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-brass), var(--color-accent-bright), var(--color-brass), transparent);
+  opacity: 0.65;
+}
+
+/* Breweries: 3-column “home screen” grid */
+.breweries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem 0.45rem;
+  margin-top: 0.85rem;
+  align-items: start;
 }
 
 .brewery-card {
+  position: relative;
+  overflow: visible;
   width: 100%;
-  border: 1px solid rgba(201, 120, 45, 0.18);
-  border-left: 4px solid var(--color-accent);
-  background: linear-gradient(95deg, rgba(40, 32, 24, 0.55) 0%, rgba(22, 18, 14, 0.75) 100%);
-  border-radius: 12px;
-  padding: 0.75rem 0.85rem;
-  display: grid;
-  grid-template-columns: 48px 1fr 18px;
+  min-width: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  padding: 0.35rem 0.2rem 0.5rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.45rem;
   cursor: pointer;
-  transition: transform var(--transition-fast), background var(--transition-fast),
-    box-shadow var(--transition-fast), border-color var(--transition-fast);
-  text-align: left;
+  transition: transform var(--transition-fast);
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.brewery-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(165deg, rgba(42, 34, 28, 0.55) 0%, rgba(18, 14, 12, 0.35) 100%);
+  border: 1px solid rgba(201, 160, 100, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transition: opacity var(--transition-fast), border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brewery-card:hover::before,
+.brewery-card:focus-visible::before {
+  opacity: 1;
+  border-color: rgba(232, 162, 60, 0.22);
 }
 
 .brewery-card:hover {
   transform: translateY(-2px);
-  background: linear-gradient(95deg, rgba(55, 42, 30, 0.65) 0%, rgba(26, 22, 18, 0.85) 100%);
-  border-color: rgba(232, 162, 60, 0.35);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 162, 60, 0.08);
+}
+
+.brewery-card:hover .brewery-card-logo {
+  box-shadow:
+    0 0 0 2px rgba(26, 15, 8, 0.9),
+    0 0 0 5px rgba(201, 120, 45, 0.4),
+    0 14px 28px rgba(0, 0, 0, 0.55);
 }
 
 .brewery-card:active {
-  transform: translateY(0);
-  box-shadow: none;
+  transform: scale(0.96);
+}
+
+.brewery-card:focus-visible {
+  outline: none;
+}
+
+.brewery-card:focus-visible .brewery-card-logo {
+  box-shadow:
+    0 0 0 2px rgba(26, 15, 8, 0.9),
+    0 0 0 3px rgba(232, 162, 60, 0.85),
+    0 10px 24px rgba(0, 0, 0, 0.5);
 }
 
 .brewery-card-logo {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  width: clamp(52px, 28vw, 64px);
+  height: clamp(52px, 28vw, 64px);
+  border-radius: 22%;
   display: grid;
   place-items: center;
   font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: clamp(0.65rem, 3.2vw, 0.78rem);
+  letter-spacing: 0.02em;
   color: #1a0f08;
   background: linear-gradient(160deg, #f0d9a8, #e8a23c 45%, #b8621a);
   box-shadow:
-    0 0 0 2px rgba(26, 15, 8, 0.85),
-    0 0 0 4px rgba(201, 120, 45, 0.45),
-    0 8px 16px rgba(0, 0, 0, 0.45);
+    0 0 0 2px rgba(26, 15, 8, 0.88),
+    0 0 0 4px rgba(201, 120, 45, 0.42),
+    0 10px 22px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -309,32 +491,66 @@ body {
 }
 
 .brewery-card-name {
-  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  color: var(--color-text);
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  hyphens: auto;
+  padding: 0 0.1rem;
 }
 
-.brewery-card-chevron {
-  font-size: 1.4rem;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.5);
-  justify-self: end;
+@media (min-width: 400px) {
+  .breweries-grid {
+    gap: 0.75rem 0.55rem;
+  }
+
+  .brewery-card-name {
+    font-size: 0.72rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .brewery-card-logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .brewery-card-name {
+    font-size: 0.76rem;
+  }
 }
 
 .back-btn {
-  border: none;
+  border: 1px solid rgba(201, 160, 100, 0.2);
   align-self: flex-start;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--color-text);
-  padding: 0.4rem 0.85rem;
-  font-size: 0.78rem;
+  background: rgba(30, 24, 18, 0.6);
+  color: var(--color-accent-soft);
+  padding: 0.42rem 0.9rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  transition: background var(--transition-fast), transform var(--transition-fast);
+  transition: background var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .back-btn:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(201, 120, 45, 0.12);
+  border-color: rgba(232, 162, 60, 0.35);
+  color: var(--color-foam);
   transform: translateY(-1px);
 }
 
@@ -361,6 +577,9 @@ body {
   overflow: hidden;
   background: rgba(0, 0, 0, 0.3);
   scroll-snap-align: start;
+  box-shadow:
+    0 0 0 1px rgba(201, 160, 100, 0.25),
+    0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .brewery-detail-gallery-item img {
@@ -404,8 +623,14 @@ body {
 }
 
 .brewery-detail-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-style: italic;
   margin: 0;
-  font-size: 1.35rem;
+  font-size: 1.42rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-foam);
 }
 
 .brewery-detail-desc {
@@ -416,10 +641,11 @@ body {
 }
 
 .brewery-detail-info {
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 160, 100, 0.15);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.12) 100%);
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .brewery-info-row {
@@ -435,10 +661,10 @@ body {
 }
 
 .brewery-info-key {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.72rem;
+  color: rgba(240, 217, 168, 0.55);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 .brewery-info-val {
@@ -496,9 +722,10 @@ button.brewery-action {
 
 .event-card {
   width: 100%;
-  border: 1px solid rgba(201, 120, 45, 0.14);
-  background: rgba(24, 20, 16, 0.6);
-  border-radius: 12px;
+  border: 1px solid rgba(201, 160, 100, 0.18);
+  border-left: 3px solid var(--color-hop);
+  background: linear-gradient(95deg, rgba(28, 32, 24, 0.5) 0%, rgba(20, 16, 14, 0.88) 45%);
+  border-radius: 14px;
   overflow: hidden;
   padding: 0;
   display: grid;
@@ -507,14 +734,16 @@ button.brewery-action {
   gap: 0;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast), border-color var(--transition-fast);
   text-align: left;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .event-card:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  background: linear-gradient(95deg, rgba(36, 42, 30, 0.55) 0%, rgba(24, 20, 16, 0.92) 100%);
+  border-color: rgba(109, 143, 92, 0.35);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.5);
 }
 
 .event-card:active {
@@ -541,15 +770,21 @@ button.brewery-action {
 }
 
 .event-card-title {
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-style: italic;
   margin: 0 0 0.2rem;
   line-height: 1.25;
 }
 
 .event-card-date {
-  font-size: 0.72rem;
-  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright);
   margin: 0 0 0.2rem;
 }
 
@@ -560,6 +795,7 @@ button.brewery-action {
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -582,6 +818,7 @@ button.brewery-action {
   overflow: hidden;
   aspect-ratio: 2 / 1;
   background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 1px rgba(109, 143, 92, 0.25), 0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
 .event-detail-image img {
@@ -592,14 +829,23 @@ button.brewery-action {
 }
 
 .event-detail-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-style: italic;
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.38rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-foam);
 }
 
 .event-detail-date {
   margin: 0;
-  font-size: 0.85rem;
-  color: var(--color-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright);
 }
 
 .event-detail-desc {
@@ -618,9 +864,10 @@ button.brewery-action {
 
 .promo-card {
   width: 100%;
-  border: 1px solid rgba(201, 120, 45, 0.14);
-  background: rgba(24, 20, 16, 0.6);
-  border-radius: 12px;
+  border: 1px solid rgba(201, 160, 100, 0.2);
+  border-left: 3px solid var(--color-brass);
+  background: linear-gradient(95deg, rgba(38, 30, 22, 0.65) 0%, rgba(18, 14, 12, 0.9) 50%);
+  border-radius: 14px;
   overflow: hidden;
   padding: 0;
   display: grid;
@@ -629,14 +876,16 @@ button.brewery-action {
   gap: 0;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast), border-color var(--transition-fast);
   text-align: left;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .promo-card:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  background: linear-gradient(95deg, rgba(48, 36, 26, 0.72) 0%, rgba(22, 18, 14, 0.94) 100%);
+  border-color: rgba(201, 160, 100, 0.35);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.52);
 }
 
 .promo-card:active {
@@ -663,15 +912,20 @@ button.brewery-action {
 }
 
 .promo-card-title {
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-style: italic;
   margin: 0 0 0.2rem;
   line-height: 1.25;
 }
 
 .promo-card-dates {
-  font-size: 0.72rem;
-  color: var(--color-accent);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--color-brass);
   margin: 0 0 0.2rem;
 }
 
@@ -682,6 +936,7 @@ button.brewery-action {
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -704,6 +959,7 @@ button.brewery-action {
   overflow: hidden;
   aspect-ratio: 2 / 1;
   background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 1px rgba(201, 160, 100, 0.28), 0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
 .promo-detail-image img {
@@ -714,14 +970,21 @@ button.brewery-action {
 }
 
 .promo-detail-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-style: italic;
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.38rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-foam);
 }
 
 .promo-detail-dates {
   margin: 0;
-  font-size: 0.85rem;
-  color: var(--color-accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-brass);
 }
 
 .promo-detail-desc {
@@ -757,7 +1020,9 @@ button.brewery-action {
 }
 
 .event-action-google {
-  color: var(--color-accent);
+  color: var(--color-accent-bright);
+  border-color: rgba(232, 162, 60, 0.35);
+  background: linear-gradient(180deg, rgba(201, 120, 45, 0.12) 0%, rgba(0, 0, 0, 0.08) 100%);
 }
 
 .event-action-ics {
@@ -779,10 +1044,10 @@ button.brewery-action {
 .install-sheet-inner {
   width: 100%;
   max-width: 520px;
-  background: linear-gradient(165deg, #1c1610, #0f0c09);
+  background: linear-gradient(168deg, #221a14 0%, #120e0a 55%, #0c0a08 100%);
   border-radius: var(--radius-lg);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(201, 120, 45, 0.25);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(201, 160, 100, 0.28);
   padding: 0.9rem 1rem;
   transform: translateY(110%);
   opacity: 0;
@@ -843,8 +1108,11 @@ button.brewery-action {
   height: 320px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.65);
-  border: 1px solid rgba(201, 120, 45, 0.2);
+  border: 1px solid rgba(109, 143, 92, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(184, 98, 26, 0.22),
+    0 16px 36px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .leaflet-container {
@@ -1109,7 +1377,16 @@ button.brewery-action {
 }
 
 .admin-console-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-style: italic;
   margin: 0;
+}
+
+.admin-login .view-title {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-style: italic;
 }
 
 .admin-toolbar {
